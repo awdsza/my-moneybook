@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import '@/style/reset.css';
+import '@/css/reset.css';
 import BottomMenu from '@/components/bottom/BottomMenu.vue';
 export default {
   name: 'App',
@@ -16,4 +16,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+body {
+  background: rgb(45, 159, 222);
+}
+</style>
