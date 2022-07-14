@@ -20,19 +20,27 @@
         </section>
         <section class="login__form__child__section button__section">
           <button type="submit" class="btn">로그인</button>
-          <button type="button" class="btn">회원가입</button>
+          <button type="button" class="btn" @click="isOpenModal = true">
+            회원가입
+          </button>
         </section>
       </form>
     </section>
+    <SignupFormView :open="isOpenModal" />
   </section>
 </template>
 
 <script>
+import SignupFormView from '@/views/login/SignupFormView.vue';
 export default {
+  components: {
+    SignupFormView,
+  },
   data() {
     return {
       userID: '',
       password: '',
+      isOpenModal: false,
     };
   },
   methods: {
