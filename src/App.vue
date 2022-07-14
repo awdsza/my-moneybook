@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import '@/style/reset.css';
 import BottomMenu from '@/components/bottom/BottomMenu.vue';
 export default {
   name: 'App',
