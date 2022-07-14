@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <h1>로그인</h1>
+  <section class="login__section">
+    <h1 class="login__title">My Money Book</h1>
     <LoginForm />
   </section>
 </template>
@@ -14,4 +14,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.login__section {
+  margin: 0 auto;
+  width: 50%;
+  border: 1px solid #0e0e0e;
+  padding: 1% 10px 10px 1%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
