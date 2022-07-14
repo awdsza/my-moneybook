@@ -26,15 +26,15 @@
         </section>
       </form>
     </section>
-    <SignupFormView :open="isOpenModal" />
+    <SignupForm :open="isOpenModal" @close="closeModal" />
   </section>
 </template>
 
 <script>
-import SignupFormView from '@/views/login/SignupFormView.vue';
+import SignupForm from '@/components/login/SignupForm.vue';
 export default {
   components: {
-    SignupFormView,
+    SignupForm,
   },
   data() {
     return {
@@ -44,6 +44,9 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      this.isOpenModal = false;
+    },
     submitLoginForm() {
       if (!(this.userID || this.password)) {
         return;
