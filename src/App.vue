@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <router-view />
-    <BottomMenu v-if="$store.state.isLogin" />
+    <div class="app-contents">
+      <router-view></router-view>
+      <BottomMenu v-if="$store.state.isLogin" />
+    </div>
   </div>
 </template>
 
 <script>
-import '@/css/common.css';
 import '@/css/reset.css';
+import '@/css/common.css';
 import BottomMenu from '@/components/bottom/BottomMenu.vue';
 export default {
   name: 'App',
@@ -17,8 +19,4 @@ export default {
 };
 </script>
 
-<style scoped>
-body {
-  background: rgb(45, 159, 222);
-}
-</style>
+<style></style>
