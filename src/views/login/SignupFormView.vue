@@ -1,4 +1,8 @@
-<template><SignupForm v-show="open"></SignupForm></template>
+<template>
+  <section v-show="open">
+    <SignupForm> </SignupForm>
+  </section>
+</template>
 
 <script>
 import SignupForm from '@/components/login/SignupForm.vue';

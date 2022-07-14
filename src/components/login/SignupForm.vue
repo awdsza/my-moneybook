@@ -1,9 +1,60 @@
 <template>
-  <div>Signup</div>
+  <section v-show="open">
+    <form @submit.prevent="submitForm">
+      <section>
+        <input
+          type="text"
+          id="userID"
+          v-model="userID"
+          placeholder="ID를 입력하세요"
+        />
+      </section>
+      <section>
+        <input
+          type="text"
+          id="password"
+          v-model="password"
+          placeholder="비밀번호를 입력하세요"
+        />
+      </section>
+      <section>
+        <input
+          type="text"
+          id="rePassword"
+          v-model="rePassword"
+          placeholder="비밀번호를 한번더 입력하세요"
+        />
+      </section>
+      <section class="lbutton__section">
+        <button type="submit" class="btn">회원가입</button>
+        <button type="button" class="btn">초기화</button>
+        <button type="button" class="btn" @click="closeModal">닫기</button>
+      </section>
+    </form>
+  </section>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    open: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      userID: '',
+      password: '',
+      rePassword: '',
+    };
+  },
+  methods: {
+    closeModal() {
+      this.$emit('close');
+    },
+  },
+};
 </script>
 
 <style></style>
