@@ -1,17 +1,14 @@
 <template>
-  <CommonModal v-show="open">
+  <CommonModal
+    v-show="open"
+    :containerWidth="`500px`"
+    :containerHeight="`600px`"
+  >
     <template #header>
       <h3>회원가입</h3>
     </template>
     <template #body>
       <SignupForm @close="closeModal"> </SignupForm>
-    </template>
-    <template #footer>
-      <section class="button__section">
-        <button type="button" class="btn">회원가입</button>
-        <button type="button" class="btn">초기화</button>
-        <button type="button" class="btn" @click="closeModal">닫기</button>
-      </section>
     </template>
   </CommonModal>
 </template>
