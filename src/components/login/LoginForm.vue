@@ -1,33 +1,35 @@
 <template>
-  <section class="contents">
-    <section class="login__form__section">
-      <form @submit.prevent="submitLoginForm">
-        <section class="login__form__child__section">
-          <input
-            type="text"
-            id="userID"
-            v-model="userID"
-            placeholder="ID를 입력하세요"
-          />
-        </section>
-        <section class="login__form__child__section">
-          <input
-            type="text"
-            id="password"
-            v-model="password"
-            placeholder="비밀번호를 입력하세요"
-          />
-        </section>
-        <section class="login__form__child__section button__section">
-          <button type="submit" class="btn">로그인</button>
-          <button type="button" class="btn" @click="isOpenModal = true">
-            회원가입
-          </button>
-        </section>
-      </form>
+  <div>
+    <section class="contents">
+      <section class="login__form__section">
+        <form @submit.prevent="submitLoginForm">
+          <section class="login__form__child__section">
+            <input
+              type="text"
+              id="userID"
+              v-model="userID"
+              placeholder="ID를 입력하세요"
+            />
+          </section>
+          <section class="login__form__child__section">
+            <input
+              type="text"
+              id="password"
+              v-model="password"
+              placeholder="비밀번호를 입력하세요"
+            />
+          </section>
+          <section class="login__form__child__section button__section">
+            <button type="submit" class="btn">로그인</button>
+            <button type="button" class="btn" @click="isOpenModal = true">
+              회원가입
+            </button>
+          </section>
+        </form>
+      </section>
     </section>
     <SignupFormView :open="isOpenModal" @close="closeModal" />
-  </section>
+  </div>
 </template>
 
 <script>
