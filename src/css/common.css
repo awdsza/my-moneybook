@@ -41,3 +41,6 @@ input[type=text],[type=password],[type=number]{
     border:0px;
     cursor: pointer;
 }  
+.button__section button:nth-child(n + 1) {
+    margin-left: 5px;
+  }
