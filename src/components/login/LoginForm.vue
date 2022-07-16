@@ -26,15 +26,15 @@
         </section>
       </form>
     </section>
-    <SignupForm :open="isOpenModal" @close="closeModal" />
+    <SignupFormView :open="isOpenModal" @close="closeModal" />
   </section>
 </template>
 
 <script>
-import SignupForm from '@/components/login/SignupForm.vue';
+import SignupFormView from '@/views/login/SignupFormView.vue';
 export default {
   components: {
-    SignupForm,
+    SignupFormView,
   },
   data() {
     return {
@@ -66,8 +66,5 @@ export default {
 }
 .login__form__child__section:nth-last-child(n + 1) {
   margin-bottom: 10px;
-}
-.button__section button:nth-child(n + 1) {
-  margin-left: 5px;
 }
 </style>

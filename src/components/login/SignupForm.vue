@@ -1,5 +1,5 @@
 <template>
-  <section v-show="open">
+  <section>
     <form @submit.prevent="submitForm">
       <section>
         <input
@@ -24,11 +24,6 @@
           v-model="rePassword"
           placeholder="비밀번호를 한번더 입력하세요"
         />
-      </section>
-      <section class="lbutton__section">
-        <button type="submit" class="btn">회원가입</button>
-        <button type="button" class="btn">초기화</button>
-        <button type="button" class="btn" @click="closeModal">닫기</button>
       </section>
     </form>
   </section>
