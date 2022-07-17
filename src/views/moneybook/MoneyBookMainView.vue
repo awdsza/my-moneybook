@@ -3,7 +3,6 @@
     <AppHeader />
     <main>
       <Navigation />
-
       <MoneyBookMain />
     </main>
   </section>

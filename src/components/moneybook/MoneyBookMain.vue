@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content__section">
     <section>
       여기가 메인이 들어갈 리스트에요!
 
@@ -72,6 +72,9 @@ export default {
 </script>
 
 <style scoped>
+.content__section {
+  flex-shrink: 2;
+}
 textarea {
   resize: none;
 }
