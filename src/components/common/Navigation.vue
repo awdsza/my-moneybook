@@ -1,8 +1,7 @@
 <template>
   <nav class="nav__section">
     <ul>
-      <li>가게부</li>
-      <li>개인정보</li>
+      <li><router-link to="/main/write">가게부쓰기</router-link></li>
     </ul>
   </nav>
 </template>
