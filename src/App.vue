@@ -2,6 +2,7 @@
   <div class="app">
     <AppHeader v-show="$store.state.isLogin" />
     <div class="app-contents">
+      <AppHeader v-show="$store.state.isLogin" />
       <Navigation v-show="$store.state.isLogin" />
       <router-view></router-view>
     </div>
