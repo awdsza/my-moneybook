@@ -6,13 +6,9 @@
 
 <script>
 import MoneyBookMain from '@/components/moneybook/MoneyBookMain.vue';
-import Navigation from '@/components/common/Navigation.vue';
-import AppHeader from '@/components/common/AppHeader.vue';
 export default {
   components: {
     MoneyBookMain,
-    Navigation,
-    AppHeader,
   },
 };
 </script>
