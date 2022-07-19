@@ -1,22 +1,20 @@
 <template>
   <nav class="nav__section">
-    <ul class="nav__ul__section">
-      <li>
-        <router-link to="/main/list"
-          ><FontAwesomeIcon icon="fa-solid fa-list"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/main/write"
-          ><FontAwesomeIcon icon="fa-solid fa-file-pen"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/main/info"
-          ><FontAwesomeIcon icon="fa-solid fa-circle-info"
-        /></router-link>
-      </li>
-    </ul>
+    <div class="nav__item">
+      <router-link to="/main/list"
+        ><FontAwesomeIcon icon="fa-solid fa-list"
+      /></router-link>
+    </div>
+    <div class="nav__item">
+      <router-link to="/main/write"
+        ><FontAwesomeIcon icon="fa-solid fa-file-pen"
+      /></router-link>
+    </div>
+    <div class="nav__item">
+      <router-link to="/main/info"
+        ><FontAwesomeIcon icon="fa-solid fa-circle-info"
+      /></router-link>
+    </div>
   </nav>
 </template>
 
@@ -53,12 +51,20 @@ export default {
   top: 100%;
   height: 3rem;
   width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
 }
-.nav__ul__section li {
-  float: left;
-  width: 33%;
+.nav__section div {
+  width: 34%;
   height: 3rem;
-  padding: 1rem;
   box-sizing: border-box;
+  line-height: 3rem;
+  text-align: center;
+}
+.nav__item {
+  background-color: #8d39a3;
+}
+.nav__item .active {
+  background-color: azure;
 }
 </style>

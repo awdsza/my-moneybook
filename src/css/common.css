@@ -44,3 +44,10 @@ input[type=text],[type=password],[type=number]{
 .button__section button:nth-child(n + 2) {
     margin-left: 5px;
 }
+a{
+    color: #364f6b;
+}
+a:hover{
+    color:#8d39a3;
+    background-color: whitesmoke;
+}
