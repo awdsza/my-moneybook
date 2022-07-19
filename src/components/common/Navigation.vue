@@ -62,9 +62,13 @@ export default {
   text-align: center;
 }
 .nav__item {
+  width: 100%;
   background-color: #8d39a3;
 }
 .nav__item .active {
   background-color: azure;
+}
+.nav__item a {
+  display: block;
 }
 </style>
