@@ -6,11 +6,6 @@
       /></router-link>
     </div>
     <div class="nav__item">
-      <router-link to="/main/write"
-        ><FontAwesomeIcon icon="fa-solid fa-file-pen"
-      /></router-link>
-    </div>
-    <div class="nav__item">
       <router-link to="/main/info"
         ><FontAwesomeIcon icon="fa-solid fa-circle-info"
       /></router-link>
@@ -26,13 +21,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 /* import specific icons */
-import {
-  faList,
-  faFilePen,
-  faCircleInfo,
-} from '@fortawesome/free-solid-svg-icons';
+import { faList, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
-library.add(faList, faFilePen, faCircleInfo);
+library.add(faList, faCircleInfo);
 
 export default {
   components: {
@@ -55,7 +46,7 @@ export default {
   flex-wrap: nowrap;
 }
 .nav__section div {
-  width: 34%;
+  width: 50%;
   height: 3rem;
   box-sizing: border-box;
   line-height: 3rem;
