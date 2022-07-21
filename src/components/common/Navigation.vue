@@ -34,12 +34,12 @@ export default {
 
 <style scoped>
 .nav__section {
-  position: absolute;
+  position: fixed;
   border-top: 2px solid grey;
   left: 0;
   right: 0;
   bottom: 0;
-  top: 100%;
+  top: 96%;
   height: 3rem;
   width: 100%;
   display: flex;
