@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { createMoneyBookData } from '@/storage/index';
 export default {
   components: {},
   data() {
@@ -93,6 +94,14 @@ export default {
         alert('수입 내용을 입력해주세요');
         return;
       }
+      createMoneyBookData({
+        userId: this.$store.state.loginID,
+        amount: this.amount,
+        bookTitle: this.bookTitle,
+        inOut: this.inOut,
+        inPurpose: this.inPurpose,
+        outGoingPurpose: this.outGoingPurpose,
+      });
     },
   },
 };
