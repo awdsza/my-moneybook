@@ -27,6 +27,13 @@ input[type=text],[type=password],[type=number]{
     box-sizing: border-box;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
 }
+select {
+    border: 1px solid #dae1e7;
+    font-size:100%;
+    width:100%;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+}
 .contents {
     max-width: 1020px;
     margin: 0 auto;
@@ -50,4 +57,19 @@ a{
 a:hover{
     color:#8d39a3;
     background-color: whitesmoke;
+}
+.write__button { 
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	position: fixed;
+	right: 20px;
+	bottom: 70px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+	background: #8d39a3;
+	border: 3px solid white;
 }
