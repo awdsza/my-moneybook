@@ -48,11 +48,15 @@
           v-model="outGoingPurpose"
           v-if="inOut === 'outGoing'"
         >
-          <option value="">지출</option>
-          <option value="">입금</option>
-          <option value="">세금납부</option>
-          <option value="">저축</option>
-          <option value="">보험</option>
+          <option value="001">식사</option>
+          <option value="002">카페/간식</option>
+          <option value="003">건강관련</option>
+          <option value="004">교통</option>
+          <option value="006">모임회비</option>
+          <option value="007">경조사</option>
+          <option value="008">계좌이체</option>
+          <option value="009">육아</option>
+          <option value="999">기탸</option>
         </select>
         <input type="text" v-else v-model="inPurpose" />
       </div>
