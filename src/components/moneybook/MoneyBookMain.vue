@@ -1,7 +1,6 @@
 <template>
   <div>
     <section>
-      Hello Main
       <!-- <DatePicker
         :language="ko"
         :format="`yyyy-MM-dd`"
@@ -10,12 +9,18 @@
       />
       ~
       <DatePicker :language="ko" :format="`yyyy-MM-dd`" /> -->
-      <router-link to="/main/write" class="write__button">
-        <FontAwesomeIcon icon="fa-solid fa-plus" />
-      </router-link>
     </section>
-    <section></section>
-    <section></section>
+    <section class="moneybook__list__section">
+      <ul>
+        <li v-for="{ bookTitle, id, amount, inOut } in moneybookList" :key="id">
+          {{ bookTitle }} | {{ amount }} |
+          {{ inOut }}
+        </li>
+      </ul>
+    </section>
+    <router-link to="/main/write" class="write__button">
+      <FontAwesomeIcon icon="fa-solid fa-plus" />
+    </router-link>
   </div>
 </template>
 
@@ -31,15 +36,21 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
 
+import { getMoneyBookList } from '@/storage/index';
 export default {
   components: { FontAwesomeIcon },
   data() {
-    return {};
+    return {
+      moneybookList: [],
+    };
   },
   methods: {
     submitMoneyBookPost() {
       console.log('submit');
     },
+  },
+  created() {
+    this.moneybookList = getMoneyBookList(this.$store.state.loginID);
   },
 };
 </script>
