@@ -9,7 +9,9 @@ const getMoneyBookList = userId => {
 const createMoneyBookData = bookData => {
   try {
     const myMoneyBookData = getMoneyBookList();
-    const lastID = myMoneyBookData[myMoneyBookData.length - 1]['id'];
+    const lastID = myMoneyBookData[myMoneyBookData.length - 1]
+      ? myMoneyBookData[myMoneyBookData.length - 1]['id']
+      : 1;
     localStorage.setItem(
       'moneyBookList',
       JSON.stringify([...myMoneyBookData, { ...bookData, id: lastID + 1 }]),
