@@ -12,9 +12,20 @@
     </section>
     <section class="moneybook__list__section">
       <ul>
-        <li v-for="{ bookTitle, id, amount, inOut } in moneybookList" :key="id">
+        <li
+          v-for="{
+            bookTitle,
+            id,
+            amount,
+            inOut,
+            outGoingPurposeText,
+            inPurpose,
+          } in moneybookList"
+          :key="id"
+        >
           {{ bookTitle }} | {{ amount }} |
-          {{ inOut }}
+          {{ inOut === 'income' ? '수입' : '지출' }} |
+          {{ inOut === 'income' ? inPurpose : outGoingPurposeText }}
         </li>
       </ul>
     </section>
