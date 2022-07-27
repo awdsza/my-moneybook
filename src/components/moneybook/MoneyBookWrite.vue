@@ -34,7 +34,6 @@
               class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
               :value="inputValue"
               v-on="inputEvents"
-              readonly
               type="text"
             />
           </template>
@@ -53,15 +52,13 @@
           v-model="outGoingPurpose"
           v-if="inOut === 'outGoing'"
         >
-          <option value="001">식사</option>
-          <option value="002">카페/간식</option>
-          <option value="003">건강관련</option>
-          <option value="004">교통</option>
-          <option value="006">모임회비</option>
-          <option value="007">경조사</option>
-          <option value="008">계좌이체</option>
-          <option value="009">육아</option>
-          <option value="999">기탸</option>
+          <option
+            v-for="{ value, name } in outGoingPurposeCodeList"
+            :value="value"
+            :key="value"
+          >
+            {{ name }}
+          </option>
         </select>
         <input type="text" v-else v-model="inPurpose" />
       </div>
@@ -74,20 +71,21 @@
 </template>
 
 <script>
-import { createMoneyBookData } from '@/storage/index';
+import { createMoneyBookData, outGoingPurposeCodeList } from '@/storage/index';
 export default {
   components: {},
   data() {
     return {
       inOut: 'outGoing',
-      bookDate: '',
+      bookDate: new Date(),
       bookTitle: '',
       bookContents: '',
       amount: '',
       purpose: '',
       inPurpose: '',
-      outGoingPurpose: '',
+      outGoingPurpose: outGoingPurposeCodeList[0].value,
       timezone: '',
+      outGoingPurposeCodeList,
     };
   },
   methods: {
@@ -111,6 +109,7 @@ export default {
         inOut: this.inOut,
         inPurpose: this.inPurpose,
         outGoingPurpose: this.outGoingPurpose,
+        bookDate: this.bookDate,
       });
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
