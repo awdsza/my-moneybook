@@ -40,4 +40,9 @@ const createMoneyBookData = bookData => {
     console.error(e);
   }
 };
-export { getMoneyBookList, createMoneyBookData, getOutGoingPurpose };
+export {
+  outGoingPurposeCodeList,
+  getMoneyBookList,
+  createMoneyBookData,
+  getOutGoingPurpose,
+};
