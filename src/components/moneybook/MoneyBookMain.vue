@@ -1,14 +1,19 @@
 <template>
   <div>
     <section>
-      <!-- <DatePicker
-        :language="ko"
-        :format="`yyyy-MM-dd`"
-        :value="`2022-07-01`"
-        :calendar-button="true"
-      />
-      ~
-      <DatePicker :language="ko" :format="`yyyy-MM-dd`" /> -->
+      <vc-date-picker v-model="searchStartDate">
+        <template v-slot="{ inputValue, togglePopover }">
+          <input :value="inputValue" readonly @click="togglePopover()" />
+        </template>
+      </vc-date-picker>
+      <vc-date-picker v-model="searchEndDate">
+        <template v-slot="{ inputValue, togglePopover }">
+          <input :value="inputValue" readonly @click="togglePopover()" />
+        </template>
+      </vc-date-picker>
+      <button type="button" class="btn" @click="clickSearchMoneyBookList">
+        검색
+      </button>
     </section>
     <section class="moneybook__list__section">
       <ul>
@@ -53,15 +58,36 @@ export default {
   data() {
     return {
       moneybookList: [],
+      searchEndDate: new Date(),
+      searchStartDate: '',
     };
   },
   methods: {
     submitMoneyBookPost() {
       console.log('submit');
     },
+    clickSearchMoneyBookList() {
+      console.log();
+      const _startDate = new Date(this.searchStartDate);
+      const _endDate = new Date(this.searchEndDate);
+      if (_startDate - _endDate > 0) {
+        alert('종료일보다 시작일이 클수 없습니다');
+        return;
+      }
+    },
   },
   created() {
     this.moneybookList = getMoneyBookList(this.$store.state.loginID);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month =
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
+    const date =
+      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
+
+    const _today = `${year}-${month}-${date}`;
+    this.searchStartDate = _today;
+    this.searchEndDate = _today;
   },
 };
 </script>
