@@ -6,7 +6,7 @@
           type="text"
           ref="userID"
           v-model="userID"
-          placeholder="ID를 입력하세요"
+          placeholder="메일주소를 입력하세요"
         />
       </section>
       <section class="signup__form__section">
@@ -25,6 +25,14 @@
           placeholder="비밀번호를 한번더 입력하세요"
         />
       </section>
+      <section class="signup__form__section">
+        <input
+          type="text"
+          v-model="userName"
+          ref="userName"
+          placeholder="이름을 입력해주세요"
+        />
+      </section>
       <section class="button__section">
         <button type="submit" class="btn">회원가입</button>
         <button type="reset" class="btn" ref="resetBtn">초기화</button>
@@ -35,6 +43,7 @@
 </template>
 
 <script>
+import { validateEmail } from '@/utils/validation';
 export default {
   props: {
     open: {
@@ -47,12 +56,13 @@ export default {
       userID: '',
       password: '',
       rePassword: '',
+      userName: '',
     };
   },
   methods: {
     submitForm() {
-      if (!this.userID) {
-        alert('ID를 입력해주세요');
+      if (!this.userID || !validateEmail(this.userID)) {
+        alert('메일 주소를 입력해주세요');
         this.$refs.userID.focus();
         return;
       }
@@ -65,9 +75,21 @@ export default {
         this.$refs.rePassword.focus();
         return;
       }
-      alert('회원가입이 완료되었습니다');
-      this.$refs.resetBtn.click();
-      this.closeModal();
+      if (!this.userName.trim()) {
+        alert('사용자 이름을 입력해주세요');
+        this.$refs.userName.focus();
+        return;
+      }
+      const result = this.$store.dispatch('signUpUser', {
+        userID: this.userID,
+        password: this.password,
+        userName: this.userName,
+      });
+      if (result) {
+        alert('회원가입이 완료되었습니다');
+        // this.$refs.resetBtn.click();
+        // this.closeModal();
+      }
     },
     closeModal() {
       this.$emit('close');
