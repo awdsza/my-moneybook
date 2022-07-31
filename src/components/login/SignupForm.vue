@@ -4,8 +4,8 @@
       <section class="signup__form__section">
         <input
           type="text"
-          ref="userID"
-          v-model="userID"
+          ref="userId"
+          v-model="userId"
           placeholder="메일주소를 입력하세요"
         />
       </section>
@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      userID: '',
+      userId: '',
       password: '',
       rePassword: '',
       userName: '',
@@ -61,9 +61,9 @@ export default {
   },
   methods: {
     submitForm() {
-      if (!this.userID || !validateEmail(this.userID)) {
+      if (!this.userId || !validateEmail(this.userId)) {
         alert('메일 주소를 입력해주세요');
-        this.$refs.userID.focus();
+        this.$refs.userId.focus();
         return;
       }
       if (!this.password || !this.rePassword) {
@@ -81,7 +81,7 @@ export default {
         return;
       }
       const result = this.$store.dispatch('signUpUser', {
-        userID: this.userID,
+        userId: this.userId,
         password: this.password,
         userName: this.userName,
       });
