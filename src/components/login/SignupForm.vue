@@ -60,7 +60,7 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       if (!this.userId || !validateEmail(this.userId)) {
         alert('메일 주소를 입력해주세요');
         this.$refs.userId.focus();
@@ -80,15 +80,15 @@ export default {
         this.$refs.userName.focus();
         return;
       }
-      const result = this.$store.dispatch('signUpUser', {
+      const result = await this.$store.dispatch('signUpUser', {
         userId: this.userId,
         password: this.password,
         userName: this.userName,
       });
-      if (result) {
+      if (result.signVerifyToken) {
         alert('회원가입이 완료되었습니다');
-        // this.$refs.resetBtn.click();
-        // this.closeModal();
+        this.$refs.resetBtn.click();
+        this.closeModal();
       }
     },
     closeModal() {
