@@ -1,5 +1,5 @@
 const get = async (path, body, headers = {}) => {
-  const url = `${process.env.VUE_APP_API_BASE_URL}/${path}`;
+  const url = `${path}`;
   const options = {
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const get = async (path, body, headers = {}) => {
   }
 };
 const post = async (path, body, headers = {}) => {
-  const url = `${process.env.VUE_APP_API_BASE_URL}/${path}`;
+  const url = `${path}`;
   const options = {
     method: 'POST',
     headers: {
