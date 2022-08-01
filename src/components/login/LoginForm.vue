@@ -6,16 +6,18 @@
           <section class="login__form__child__section">
             <input
               type="text"
-              id="userID"
-              v-model="userID"
+              id="userId"
+              v-model="userId"
+              ref="userId"
               placeholder="ID를 입력하세요"
             />
           </section>
           <section class="login__form__child__section">
             <input
-              type="text"
+              type="password"
               id="password"
               v-model="password"
+              ref="password"
               placeholder="비밀번호를 입력하세요"
             />
           </section>
@@ -34,13 +36,14 @@
 
 <script>
 import SignupFormView from '@/views/login/SignupFormView.vue';
+import { validateEmail } from '@/utils/validation';
 export default {
   components: {
     SignupFormView,
   },
   data() {
     return {
-      userID: '',
+      userId: '',
       password: '',
       isOpenModal: false,
     };
@@ -49,8 +52,26 @@ export default {
     closeModal() {
       this.isOpenModal = false;
     },
-    submitLoginForm() {
-      if (!(this.userID || this.password)) {
+    async submitLoginForm() {
+      if (!this.userId) {
+        alert('ID를 입력하세요');
+        this.$refs.userId.focus();
+        return;
+      } else if (!validateEmail(this.userId)) {
+        alert('ID는 이메일 형식을 이용합니다. 이메일을 입력해주세요');
+        this.$refs.userId.focus();
+        return;
+      } else if (!this.password) {
+        alert('비밀번호를 입력하세요');
+        this.$refs.password.focus();
+        return;
+      }
+      const result = await this.$store.dispatch('loginUser', {
+        userId: this.userId,
+        password: this.password,
+      });
+      if (result.statusCode) {
+        alert(result.message);
         return;
       }
       //로그인처리
