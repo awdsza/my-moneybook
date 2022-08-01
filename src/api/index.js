@@ -12,7 +12,7 @@ const get = async (path, body, headers = {}) => {
   if (res.ok) {
     return data;
   } else {
-    throw Error(data);
+    throw Error(JSON.stringify(data));
   }
 };
 const post = async (path, body, headers = {}) => {
@@ -30,7 +30,7 @@ const post = async (path, body, headers = {}) => {
   if (res.ok) {
     return data;
   } else {
-    throw Error(data);
+    throw Error(JSON.stringify(data));
   }
 };
 
