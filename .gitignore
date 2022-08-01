@@ -23,6 +23,6 @@ pnpm-debug.log*
 *.sw?
 
 # env
-.production.env
-.stage.env
-.development.env
+.env
+.env.production
+.env.development
