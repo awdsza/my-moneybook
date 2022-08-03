@@ -11,7 +11,6 @@ import {
 } from '@/utils/cookies';
 export default new Vuex.Store({
   state: {
-    isLogin: false,
     token: getAuthFromCookie() || '',
     userName: getUserFromCookie() || '',
   },
@@ -23,7 +22,11 @@ export default new Vuex.Store({
       state.userName = userName;
     },
   },
-  getters: {},
+  getters: {
+    isLogin(state) {
+      return state.token !== '' && state.userName != '';
+    },
+  },
   actions: {
     async signUpUser({ commit }, payload) {
       try {
