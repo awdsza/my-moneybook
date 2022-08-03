@@ -19,6 +19,10 @@ const router = new VueRouter({
       component: () => import('@/views/moneybook/MoneyBookMainView.vue'),
     },
     {
+      path: '/main/write',
+      component: () => import('@/views/moneybook/MoneyBookWriteView.vue'),
+    },
+    {
       path: '/main/info',
       component: () => import('@/views/myinfo/MyInfoView.vue'),
     },

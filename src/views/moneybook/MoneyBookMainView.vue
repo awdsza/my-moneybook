@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <main>
     <MoneyBookMain />
-  </section>
+  </main>
 </template>
 
 <script>
@@ -13,4 +13,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.main__section {
+  margin: 0 auto;
+  width: 500px;
+  height: 968px;
+}
+main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-content: center;
+}
+</style>

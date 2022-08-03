@@ -1,77 +1,101 @@
 <template>
-  <section>
+  <div>
     <section>
-      여기가 메인이 들어갈 리스트에요!
-
-      <button type="button" @click="isOpen = true">팝업오픈!</button>
+      <vc-date-picker v-model="searchStartDate">
+        <template v-slot="{ inputValue, togglePopover }">
+          <input :value="inputValue" readonly @click="togglePopover()" />
+        </template>
+      </vc-date-picker>
+      <vc-date-picker v-model="searchEndDate">
+        <template v-slot="{ inputValue, togglePopover }">
+          <input :value="inputValue" readonly @click="togglePopover()" />
+        </template>
+      </vc-date-picker>
+      <button type="button" class="btn" @click="clickSearchMoneyBookList">
+        검색
+      </button>
     </section>
-    <MoneyBookPostPopup :open="isOpen">
-      <template #header><h1>가게부 내용 입력</h1></template>
-      <template #main>
-        <form @submit.prevent="onMoneyBookPostSubmit">
-          <div>
-            <label for="bookTitle">제목: </label>
-            <input v-model="bookTitle" id="bookTitle" />
-          </div>
-          <div>
-            <label for="bookContents">내용: </label>
-            <textarea
-              v-model="bookContents"
-              name=""
-              id="bookContents"
-              cols="30"
-              rows="10"
-            ></textarea>
-          </div>
-          <div>
-            <label for="amount">비용: </label>
-            <input type="number" v-model="amount" id="amount" />
-          </div>
-          <div>
-            <label for="purpose">용도: </label>
-            <select id="purpose" v-model="purpose">
-              <option value="">지출</option>
-              <option value="">입금</option>
-              <option value="">세금납부</option>
-              <option value="">저축</option>
-              <option value="">보험</option>
-            </select>
-          </div>
-        </form>
-      </template>
-      <template #footer>
-        <button type="button" @click="submitMoneyBookPost">등록</button>
-        <button type="reset">초기화</button>
-        <button type="button" @click="isOpen = false">취소</button>
-      </template>
-    </MoneyBookPostPopup>
-  </section>
+    <section class="moneybook__list__section">
+      <ul>
+        <li
+          v-for="{
+            bookTitle,
+            id,
+            amount,
+            inOut,
+            outGoingPurposeText,
+            inPurpose,
+          } in moneybookList"
+          :key="id"
+        >
+          {{ bookTitle }} | {{ amount }} |
+          {{ inOut === 'income' ? '수입' : '지출' }} |
+          {{ inOut === 'income' ? inPurpose : outGoingPurposeText }}
+        </li>
+      </ul>
+    </section>
+    <router-link to="/main/write" class="write__button">
+      <FontAwesomeIcon icon="fa-solid fa-plus" />
+    </router-link>
+  </div>
 </template>
 
 <script>
-import MoneyBookPostPopup from './MoneyBookPostPopup.vue';
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+/* import specific icons */
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+/* add icons to the library */
+library.add(faPlus);
+
+import { getMoneyBookList } from '@/storage/index';
 export default {
-  components: {
-    MoneyBookPostPopup,
-  },
+  components: { FontAwesomeIcon },
   data() {
     return {
-      isOpen: false,
-      bookTitle: '',
-      bookContents: '',
-      amount: 0,
-      purpose: '',
+      moneybookList: [],
+      searchEndDate: new Date(),
+      searchStartDate: '',
     };
   },
   methods: {
     submitMoneyBookPost() {
       console.log('submit');
     },
+    clickSearchMoneyBookList() {
+      console.log();
+      const _startDate = new Date(this.searchStartDate);
+      const _endDate = new Date(this.searchEndDate);
+      if (_startDate - _endDate > 0) {
+        alert('종료일보다 시작일이 클수 없습니다');
+        return;
+      }
+    },
+  },
+  created() {
+    this.moneybookList = getMoneyBookList(this.$store.state.loginID);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month =
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
+    const date =
+      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
+
+    const _today = `${year}-${month}-${date}`;
+    this.searchStartDate = _today;
+    this.searchEndDate = _today;
   },
 };
 </script>
 
 <style scoped>
+.content__section {
+  flex-shrink: 2;
+}
 textarea {
   resize: none;
 }
