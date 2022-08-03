@@ -1,8 +1,8 @@
 <template>
   <div class="app">
-    <AppHeader v-show="$store.state.isLogin" />
+    <AppHeader v-if="isUserLogin" />
     <div class="app-contents">
-      <Navigation v-show="$store.state.isLogin" />
+      <Navigation v-if="isUserLogin" />
       <router-view></router-view>
     </div>
   </div>
@@ -16,6 +16,11 @@ import Navigation from '@/components/common/Navigation.vue';
 export default {
   name: 'App',
   components: { AppHeader, Navigation },
+  computed: {
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
 };
 </script>
 
