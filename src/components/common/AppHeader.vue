@@ -5,14 +5,38 @@
     </div>
     <section class="myinfo__section">
       <div claas="myinfo__wrapper">
-        <h3><router-link to="/main/info">관리자님</router-link> 환영합니다.</h3>
+        <template>
+          <h3>
+            <router-link to="/main/info"
+              >{{ $store.state.userName }}님</router-link
+            >
+            환영합니다.
+          </h3>
+        </template>
+        <!-- 2 -->
+        <template>
+          <a href="javascript:;" @click="logoutUser" class="logout-button">
+            Logout
+          </a>
+        </template>
       </div>
     </section>
   </header>
 </template>
 
 <script>
-export default {};
+import { deleteCookie } from '@/utils/cookies';
+export default {
+  methods: {
+    logoutUser() {
+      deleteCookie('userName');
+      deleteCookie('token');
+      this.$store.commit('setToken', '');
+      this.$store.commit('setUserName', '');
+      this.$router.push('/login');
+    },
+  },
+};
 </script>
 
 <style scoped>
