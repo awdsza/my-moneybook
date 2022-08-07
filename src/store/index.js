@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { post } from '@/api/index';
+import { post, get } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -60,6 +60,16 @@ export default new Vuex.Store({
         return await post('/accountbook', payload);
       } catch (e) {
         return JSON.parse(e);
+      }
+    },
+    async getAccountBookList({ commit }, { searchStartDate, searchEndDate }) {
+      try {
+        const result = await get(
+          `/accountbook/${getUserSeqFromCookie()}/bookDate/${searchStartDate}/${searchEndDate}`,
+        );
+        return result;
+      } catch (e) {
+        return e;
       }
     },
   },
