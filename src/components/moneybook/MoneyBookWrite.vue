@@ -28,7 +28,15 @@
       </div>
       <div>
         <label class="item__label" for="bookDate">일정 </label>
-        <vc-date-picker v-model="bookDate" mode="dateTime" is24hr>
+        <vc-date-picker
+          v-model="bookDate"
+          mode="dateTime"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD HH:mm:ss', // Uses 'iso' if missing
+          }"
+          is24hr
+        >
           <template v-slot="{ inputValue, inputEvents }">
             <input
               class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
@@ -71,13 +79,13 @@
 </template>
 
 <script>
-import { createMoneyBookData, outGoingPurposeCodeList } from '@/storage/index';
+import { outGoingPurposeCodeList } from '@/storage/index';
 export default {
   components: {},
   data() {
     return {
       inOut: 'outGoing',
-      bookDate: new Date(),
+      bookDate: '',
       bookTitle: '',
       bookContents: '',
       amount: '',
@@ -117,6 +125,26 @@ export default {
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
     },
+  },
+  created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month =
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
+    const date =
+      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
+    const hour =
+      today.getHours() + 1 < 10 ? `0${today.getHours()}` : today.getHours();
+    const minute =
+      today.getMinutes() + 1 < 10
+        ? `0${today.getMinutes()}`
+        : today.getMinutes();
+    const second =
+      today.getSeconds() + 1 < 10
+        ? `0${today.getSeconds()}`
+        : today.getSeconds();
+    const _today = `${year}.${month}.${date} ${hour}:${minute}:${second}`;
+    this.bookDate = _today;
   },
 };
 </script>
