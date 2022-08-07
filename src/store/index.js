@@ -8,6 +8,8 @@ import {
   saveUserToCookie,
   getAuthFromCookie,
   getUserFromCookie,
+  saveUserSeqToCookie,
+  getUserSeqFromCookie,
 } from '@/utils/cookies';
 export default new Vuex.Store({
   state: {
@@ -37,13 +39,14 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName } = await post(
+        const { isSuccess, token, userName, userSeq } = await post(
           'users/login',
           payload,
         );
         if (token) {
           saveAuthToCookie(token);
           saveUserToCookie(userName);
+          saveUserSeqToCookie(userSeq);
           commit('setToken', token);
           commit('setUserName', userName);
           return isSuccess;
