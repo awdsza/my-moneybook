@@ -89,7 +89,7 @@ export default {
     };
   },
   methods: {
-    submitMoneyBookPost() {
+    async submitMoneyBookPost() {
       if (!this.amount) {
         alert('금액을 입력해주세요');
         return;
@@ -102,8 +102,8 @@ export default {
         alert('수입 내용을 입력해주세요');
         return;
       }
-      createMoneyBookData({
-        userId: this.$store.state.loginID,
+      const result = await this.$store.dispatch('createAccountBook', {
+        token: this.$store.state.token,
         amount: this.amount,
         bookTitle: this.bookTitle,
         inOut: this.inOut,
@@ -111,6 +111,9 @@ export default {
         outGoingPurpose: this.outGoingPurpose,
         bookDate: this.bookDate,
       });
+      if (!result.isSuccess) {
+        alert(result.message);
+      }
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
     },

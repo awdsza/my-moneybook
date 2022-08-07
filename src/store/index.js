@@ -52,5 +52,12 @@ export default new Vuex.Store({
         return JSON.parse(e.message);
       }
     },
+    async createAccountBook({ commit }, payload) {
+      try {
+        return await post('/accountbook', payload);
+      } catch (e) {
+        return JSON.parse(e);
+      }
+    },
   },
 });

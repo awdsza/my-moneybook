@@ -3,12 +3,12 @@
     <section>
       <vc-date-picker v-model="searchStartDate">
         <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" readonly @click="togglePopover()" />
+          <input :value="inputValue" @click="togglePopover()" type="text" />
         </template>
       </vc-date-picker>
       <vc-date-picker v-model="searchEndDate">
         <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" readonly @click="togglePopover()" />
+          <input :value="inputValue" @click="togglePopover()" type="text" />
         </template>
       </vc-date-picker>
       <button type="button" class="btn" @click="clickSearchMoneyBookList">
@@ -25,12 +25,14 @@
             inOut,
             outGoingPurposeText,
             inPurpose,
+            bookDate,
           } in moneybookList"
           :key="id"
         >
           {{ bookTitle }} | {{ amount }} |
           {{ inOut === 'income' ? '수입' : '지출' }} |
           {{ inOut === 'income' ? inPurpose : outGoingPurposeText }}
+          | {{ bookDate }}
         </li>
       </ul>
     </section>
@@ -59,7 +61,7 @@ export default {
     return {
       moneybookList: [],
       searchEndDate: new Date(),
-      searchStartDate: '',
+      searchStartDate: new Date(),
     };
   },
   methods: {
@@ -67,17 +69,24 @@ export default {
       console.log('submit');
     },
     clickSearchMoneyBookList() {
-      console.log();
-      const _startDate = new Date(this.searchStartDate);
-      const _endDate = new Date(this.searchEndDate);
+      const _startDate = new Date(
+        `${this.searchStartDate.replaceAll('-', '.')} 00:00:00`,
+      );
+      const _endDate = new Date(
+        `${this.searchEndDate.replaceAll('-', '.')} 23:59:59`,
+      );
       if (_startDate - _endDate > 0) {
         alert('종료일보다 시작일이 클수 없습니다');
         return;
       }
+      this.moneybookList = getMoneyBookList({
+        userId: this.$store.state.loginID,
+        searchStartDate: this.searchStartDate,
+        searchEndDate: this.searchEndDate,
+      });
     },
   },
   created() {
-    this.moneybookList = getMoneyBookList(this.$store.state.loginID);
     const today = new Date();
     const year = today.getFullYear();
     const month =
@@ -88,6 +97,11 @@ export default {
     const _today = `${year}-${month}-${date}`;
     this.searchStartDate = _today;
     this.searchEndDate = _today;
+    this.moneybookList = getMoneyBookList({
+      userId: this.$store.state.loginID,
+      searchStartDate: this.searchStartDate,
+      searchEndDate: this.searchEndDate,
+    });
   },
 };
 </script>
