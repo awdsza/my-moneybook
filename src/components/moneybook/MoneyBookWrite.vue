@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { createMoneyBookData, outGoingPurposeCodeList } from '@/storage/index';
+import { outGoingPurposeCodeList } from '@/storage/index';
 export default {
   components: {},
   data() {
