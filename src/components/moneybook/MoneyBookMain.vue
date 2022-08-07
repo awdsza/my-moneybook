@@ -1,12 +1,24 @@
 <template>
   <div>
     <section>
-      <vc-date-picker v-model="searchStartDate">
+      <vc-date-picker
+        v-model="searchStartDate"
+        :model-config="{
+          type: 'string',
+          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+        }"
+      >
         <template v-slot="{ inputValue, togglePopover }">
           <input :value="inputValue" @click="togglePopover()" type="text" />
         </template>
       </vc-date-picker>
-      <vc-date-picker v-model="searchEndDate">
+      <vc-date-picker
+        v-model="searchEndDate"
+        :model-config="{
+          type: 'string',
+          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+        }"
+      >
         <template v-slot="{ inputValue, togglePopover }">
           <input :value="inputValue" @click="togglePopover()" type="text" />
         </template>
@@ -54,54 +66,45 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
 
-import { getMoneyBookList } from '@/storage/index';
 export default {
   components: { FontAwesomeIcon },
   data() {
     return {
       moneybookList: [],
-      searchEndDate: new Date(),
-      searchStartDate: new Date(),
+      searchEndDate: '',
+      searchStartDate: '',
     };
   },
   methods: {
     submitMoneyBookPost() {
       console.log('submit');
     },
-    clickSearchMoneyBookList() {
-      const _startDate = new Date(
-        `${this.searchStartDate.replaceAll('-', '.')} 00:00:00`,
-      );
-      const _endDate = new Date(
-        `${this.searchEndDate.replaceAll('-', '.')} 23:59:59`,
-      );
-      if (_startDate - _endDate > 0) {
+    async clickSearchMoneyBookList() {
+      if (new Date(this.searchStartDate) - new Date(this.searchEndDate) > 0) {
         alert('종료일보다 시작일이 클수 없습니다');
         return;
       }
-      this.moneybookList = getMoneyBookList({
-        userId: this.$store.state.loginID,
-        searchStartDate: this.searchStartDate,
-        searchEndDate: this.searchEndDate,
+      const result = await this.$store.dispatch('getAccountBookList', {
+        token: this.$store.state.token,
+        searchStartDate: this.searchStartDate.replace(/\./gi, '-'),
+        searchEndDate: this.searchEndDate.replace(/\./gi, '-'),
       });
+      if (result) {
+        this.moneybookList = result;
+      }
     },
   },
-  created() {
+  async created() {
     const today = new Date();
     const year = today.getFullYear();
     const month =
       today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
     const date =
       today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
-
-    const _today = `${year}-${month}-${date}`;
+    const _today = `${year}.${month}.${date}`;
     this.searchStartDate = _today;
     this.searchEndDate = _today;
-    this.moneybookList = getMoneyBookList({
-      userId: this.$store.state.loginID,
-      searchStartDate: this.searchStartDate,
-      searchEndDate: this.searchEndDate,
-    });
+    this.clickSearchMoneyBookList();
   },
 };
 </script>
