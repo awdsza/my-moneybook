@@ -72,5 +72,13 @@ export default new Vuex.Store({
         return e;
       }
     },
+    async getAccountBook({ commit }, { seq }) {
+      try {
+        const result = await get(`/accountbook/${seq}`);
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
   },
 });
