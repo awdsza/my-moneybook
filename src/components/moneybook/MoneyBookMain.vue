@@ -29,22 +29,8 @@
     </section>
     <section class="moneybook__list__section">
       <ul>
-        <li
-          v-for="{
-            bookTitle,
-            id,
-            amount,
-            inOut,
-            outGoingPurposeText,
-            inPurpose,
-            bookDate,
-          } in moneybookList"
-          :key="id"
-        >
-          {{ bookTitle }} | {{ amount }} |
-          {{ inOut === 'income' ? '수입' : '지출' }} |
-          {{ inOut === 'income' ? inPurpose : outGoingPurposeText }}
-          | {{ bookDate }}
+        <li v-for="moneyBook in moneybookList" :key="moneyBook.id">
+          <MoneyBookPost :moneyBook="moneyBook" />
         </li>
       </ul>
     </section>
@@ -65,9 +51,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
-
+import MoneyBookPost from '@/components/moneybook/MoneyBookPost.vue';
 export default {
-  components: { FontAwesomeIcon },
+  components: { FontAwesomeIcon, MoneyBookPost },
   data() {
     return {
       moneybookList: [],

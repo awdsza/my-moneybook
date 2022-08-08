@@ -126,7 +126,46 @@ export default {
       this.$router.push('/main/list');
     },
   },
-  created() {
+  async created() {
+    const { seq: paramSeq } = this.$route.params;
+    if (paramSeq) {
+      const {
+        seq,
+        inOut,
+        bookDate,
+        bookTitle,
+        amount,
+        inPurpose,
+        outGoingPurpose,
+      } = await this.$store.dispatch('getAccountBook', { seq: paramSeq });
+      if (seq) {
+        this.amount = amount;
+        this.inOut = inOut;
+        const _bookDate = new Date(bookDate);
+        const year = _bookDate.getFullYear();
+        const month =
+          _bookDate.getMonth() + 1 < 10
+            ? `0${_bookDate.getMonth() + 1}`
+            : _bookDate.getMonth();
+        const date =
+          _bookDate.getDate() + 1 < 10
+            ? `0${_bookDate.getDate()}`
+            : _bookDate.getDate();
+        const hour =
+          _bookDate.getHours() + 1 < 10
+            ? `0${_bookDate.getHours()}`
+            : _bookDate.getHours();
+        const minute =
+          _bookDate.getMinutes() + 1 < 10
+            ? `0${_bookDate.getMinutes()}`
+            : _bookDate.getMinutes();
+        this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
+        this.bookTitle = bookTitle;
+        this.inPurpose = inPurpose;
+        this.outGoingPurpose = outGoingPurpose;
+      }
+      return;
+    }
     const today = new Date();
     const year = today.getFullYear();
     const month =
@@ -139,12 +178,7 @@ export default {
       today.getMinutes() + 1 < 10
         ? `0${today.getMinutes()}`
         : today.getMinutes();
-    const second =
-      today.getSeconds() + 1 < 10
-        ? `0${today.getSeconds()}`
-        : today.getSeconds();
-    const _today = `${year}.${month}.${date} ${hour}:${minute}:${second}`;
-    this.bookDate = _today;
+    this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
   },
 };
 </script>
