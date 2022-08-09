@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { post, get, put } from '@/api/index';
+import { POST, GET, PUT } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -32,14 +32,14 @@ export default new Vuex.Store({
   actions: {
     async signUpUser({ commit }, payload) {
       try {
-        return await post('users', payload);
+        return await POST('users', payload);
       } catch (e) {
         return JSON.parse(e);
       }
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq } = await post(
+        const { isSuccess, token, userName, userSeq } = await POST(
           'users/login',
           payload,
         );
@@ -57,14 +57,14 @@ export default new Vuex.Store({
     },
     async createAccountBook({ commit }, payload) {
       try {
-        return await post('/accountbook', payload);
+        return await POST('/accountbook', payload);
       } catch (e) {
         return JSON.parse(e);
       }
     },
     async getAccountBookList({ commit }, { searchStartDate, searchEndDate }) {
       try {
-        const result = await get(
+        const result = await GET(
           `/accountbook/${getUserSeqFromCookie()}/bookDate/${searchStartDate}/${searchEndDate}`,
         );
         return result;
@@ -74,7 +74,7 @@ export default new Vuex.Store({
     },
     async getAccountBook({ commit }, { seq }) {
       try {
-        const result = await get(`/accountbook/${seq}`);
+        const result = await GET(`/accountbook/${seq}`);
         return result;
       } catch (e) {
         return e;
@@ -82,7 +82,7 @@ export default new Vuex.Store({
     },
     async updateAccountBook({ commit }, payload) {
       try {
-        return await put(`/accountbook/${payload.seq}`, payload);
+        return await PUT(`/accountbook/${payload.seq}`, payload);
       } catch (e) {
         return JSON.parse(e);
       }
