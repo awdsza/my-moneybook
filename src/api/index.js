@@ -1,4 +1,4 @@
-const get = async (path, body, headers = {}) => {
+const GET = async (path, body, headers = {}) => {
   const url = `${path}`;
   const options = {
     headers: {
@@ -15,7 +15,7 @@ const get = async (path, body, headers = {}) => {
     throw Error(JSON.stringify(data));
   }
 };
-const post = async (path, body, headers = {}) => {
+const POST = async (path, body, headers = {}) => {
   const url = `${path}`;
   const options = {
     method: 'POST',
@@ -33,7 +33,7 @@ const post = async (path, body, headers = {}) => {
     throw Error(JSON.stringify(data));
   }
 };
-const put = async (path, body, headers = {}) => {
+const PUT = async (path, body, headers = {}) => {
   const options = {
     method: 'PUT',
     headers: {
@@ -50,5 +50,22 @@ const put = async (path, body, headers = {}) => {
     throw Error(JSON.stringify(data));
   }
 };
+const DELETE = async (path, body, headers = {}) => {
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body: JSON.stringify(body),
+  };
+  const res = await fetch(path, options);
+  const data = await res.json();
+  if (res.ok) {
+    return data;
+  } else {
+    throw Error(JSON.stringify(data));
+  }
+};
 
-export { get, post, put };
+export { GET, POST, PUT, DELETE };
