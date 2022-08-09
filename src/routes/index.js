@@ -23,6 +23,10 @@ const router = new VueRouter({
       component: () => import('@/views/moneybook/MoneyBookWriteView.vue'),
     },
     {
+      path: '/main/:seq',
+      component: () => import('@/views/moneybook/MoneyBookWriteView.vue'),
+    },
+    {
       path: '/main/info',
       component: () => import('@/views/myinfo/MyInfoView.vue'),
     },

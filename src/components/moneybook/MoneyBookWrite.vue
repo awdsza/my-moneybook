@@ -28,7 +28,15 @@
       </div>
       <div>
         <label class="item__label" for="bookDate">일정 </label>
-        <vc-date-picker v-model="bookDate" mode="dateTime" is24hr>
+        <vc-date-picker
+          v-model="bookDate"
+          mode="dateTime"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD HH:mm:ss', // Uses 'iso' if missing
+          }"
+          is24hr
+        >
           <template v-slot="{ inputValue, inputEvents }">
             <input
               class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
@@ -71,13 +79,14 @@
 </template>
 
 <script>
-import { createMoneyBookData, outGoingPurposeCodeList } from '@/storage/index';
+import { outGoingPurposeCodeList } from '@/storage/index';
 export default {
   components: {},
   data() {
     return {
+      paramSeq: '',
       inOut: 'outGoing',
-      bookDate: new Date(),
+      bookDate: '',
       bookTitle: '',
       bookContents: '',
       amount: '',
@@ -102,21 +111,90 @@ export default {
         alert('수입 내용을 입력해주세요');
         return;
       }
-      const result = await this.$store.dispatch('createAccountBook', {
-        token: this.$store.state.token,
-        amount: this.amount,
-        bookTitle: this.bookTitle,
-        inOut: this.inOut,
-        inPurpose: this.inPurpose,
-        outGoingPurpose: this.outGoingPurpose,
-        bookDate: this.bookDate,
-      });
+      let result = null;
+      if (this.paramSeq) {
+        result = await this.$store.dispatch('updateAccountBook', {
+          seq: this.paramSeq,
+          token: this.$store.state.token,
+          amount: this.amount,
+          bookTitle: this.bookTitle,
+          inOut: this.inOut,
+          inPurpose: this.inPurpose,
+          outGoingPurpose: this.outGoingPurpose,
+          bookDate: this.bookDate,
+        });
+      } else {
+        result = await this.$store.dispatch('createAccountBook', {
+          token: this.$store.state.token,
+          amount: this.amount,
+          bookTitle: this.bookTitle,
+          inOut: this.inOut,
+          inPurpose: this.inPurpose,
+          outGoingPurpose: this.outGoingPurpose,
+          bookDate: this.bookDate,
+        });
+      }
       if (!result.isSuccess) {
         alert(result.message);
       }
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
     },
+  },
+  async created() {
+    const { seq: paramSeq } = this.$route.params;
+    if (paramSeq) {
+      this.paramSeq = paramSeq;
+      const {
+        seq,
+        inOut,
+        bookDate,
+        bookTitle,
+        amount,
+        inPurpose,
+        outGoingPurpose,
+      } = await this.$store.dispatch('getAccountBook', { seq: paramSeq });
+      if (seq) {
+        this.amount = amount;
+        this.inOut = inOut;
+        const _bookDate = new Date(bookDate);
+        const year = _bookDate.getFullYear();
+        const month =
+          _bookDate.getMonth() + 1 < 10
+            ? `0${_bookDate.getMonth() + 1}`
+            : _bookDate.getMonth();
+        const date =
+          _bookDate.getDate() + 1 < 10
+            ? `0${_bookDate.getDate()}`
+            : _bookDate.getDate();
+        const hour =
+          _bookDate.getHours() + 1 < 10
+            ? `0${_bookDate.getHours()}`
+            : _bookDate.getHours();
+        const minute =
+          _bookDate.getMinutes() + 1 < 10
+            ? `0${_bookDate.getMinutes()}`
+            : _bookDate.getMinutes();
+        this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
+        this.bookTitle = bookTitle;
+        this.inPurpose = inPurpose;
+        this.outGoingPurpose = outGoingPurpose;
+      }
+      return;
+    }
+    const today = new Date();
+    const year = today.getFullYear();
+    const month =
+      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
+    const date =
+      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
+    const hour =
+      today.getHours() + 1 < 10 ? `0${today.getHours()}` : today.getHours();
+    const minute =
+      today.getMinutes() + 1 < 10
+        ? `0${today.getMinutes()}`
+        : today.getMinutes();
+    this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
   },
 };
 </script>
