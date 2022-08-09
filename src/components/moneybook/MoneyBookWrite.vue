@@ -80,6 +80,7 @@
 
 <script>
 import { outGoingPurposeCodeList } from '@/storage/index';
+import * as format from 'date-format';
 export default {
   components: {},
   data() {
@@ -157,44 +158,14 @@ export default {
       if (seq) {
         this.amount = amount;
         this.inOut = inOut;
-        const _bookDate = new Date(bookDate);
-        const year = _bookDate.getFullYear();
-        const month =
-          _bookDate.getMonth() + 1 < 10
-            ? `0${_bookDate.getMonth() + 1}`
-            : _bookDate.getMonth();
-        const date =
-          _bookDate.getDate() + 1 < 10
-            ? `0${_bookDate.getDate()}`
-            : _bookDate.getDate();
-        const hour =
-          _bookDate.getHours() + 1 < 10
-            ? `0${_bookDate.getHours()}`
-            : _bookDate.getHours();
-        const minute =
-          _bookDate.getMinutes() + 1 < 10
-            ? `0${_bookDate.getMinutes()}`
-            : _bookDate.getMinutes();
-        this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
+        this.bookDate = format('yyyy.MM.dd hh:mm', new Date(bookDate));
         this.bookTitle = bookTitle;
         this.inPurpose = inPurpose;
         this.outGoingPurpose = outGoingPurpose;
       }
       return;
     }
-    const today = new Date();
-    const year = today.getFullYear();
-    const month =
-      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
-    const date =
-      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
-    const hour =
-      today.getHours() + 1 < 10 ? `0${today.getHours()}` : today.getHours();
-    const minute =
-      today.getMinutes() + 1 < 10
-        ? `0${today.getMinutes()}`
-        : today.getMinutes();
-    this.bookDate = `${year}.${month}.${date} ${hour}:${minute}`;
+    this.bookDate = format('yyyy.MM.dd hh:mm', new Date());
   },
 };
 </script>
