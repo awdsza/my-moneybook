@@ -84,6 +84,7 @@ export default {
   components: {},
   data() {
     return {
+      paramSeq: '',
       inOut: 'outGoing',
       bookDate: '',
       bookTitle: '',
@@ -110,15 +111,29 @@ export default {
         alert('수입 내용을 입력해주세요');
         return;
       }
-      const result = await this.$store.dispatch('createAccountBook', {
-        token: this.$store.state.token,
-        amount: this.amount,
-        bookTitle: this.bookTitle,
-        inOut: this.inOut,
-        inPurpose: this.inPurpose,
-        outGoingPurpose: this.outGoingPurpose,
-        bookDate: this.bookDate,
-      });
+      let result = null;
+      if (this.paramSeq) {
+        result = await this.$store.dispatch('updateAccountBook', {
+          seq: this.paramSeq,
+          token: this.$store.state.token,
+          amount: this.amount,
+          bookTitle: this.bookTitle,
+          inOut: this.inOut,
+          inPurpose: this.inPurpose,
+          outGoingPurpose: this.outGoingPurpose,
+          bookDate: this.bookDate,
+        });
+      } else {
+        result = await this.$store.dispatch('createAccountBook', {
+          token: this.$store.state.token,
+          amount: this.amount,
+          bookTitle: this.bookTitle,
+          inOut: this.inOut,
+          inPurpose: this.inPurpose,
+          outGoingPurpose: this.outGoingPurpose,
+          bookDate: this.bookDate,
+        });
+      }
       if (!result.isSuccess) {
         alert(result.message);
       }
@@ -129,6 +144,7 @@ export default {
   async created() {
     const { seq: paramSeq } = this.$route.params;
     if (paramSeq) {
+      this.paramSeq = paramSeq;
       const {
         seq,
         inOut,

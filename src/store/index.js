@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { post, get } from '@/api/index';
+import { post, get, put } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -78,6 +78,13 @@ export default new Vuex.Store({
         return result;
       } catch (e) {
         return e;
+      }
+    },
+    async updateAccountBook({ commit }, payload) {
+      try {
+        return await put(`/accountbook/${payload.seq}`, payload);
+      } catch (e) {
+        return JSON.parse(e);
       }
     },
   },
