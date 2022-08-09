@@ -29,9 +29,11 @@
     </section>
     <section class="moneybook__list__section">
       <ul>
-        <li v-for="moneyBook in moneybookList" :key="moneyBook.id">
-          <MoneyBookPost :moneyBook="moneyBook" />
-        </li>
+        <MoneyBookPost
+          v-for="moneyBook in moneybookList"
+          :key="moneyBook.id"
+          :moneyBook="moneyBook"
+        />
       </ul>
     </section>
     <router-link to="/main/write" class="write__button">
@@ -52,6 +54,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
 import MoneyBookPost from '@/components/moneybook/MoneyBookPost.vue';
+import * as format from 'date-format';
 export default {
   components: { FontAwesomeIcon, MoneyBookPost },
   data() {
@@ -81,15 +84,8 @@ export default {
     },
   },
   async created() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month =
-      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
-    const date =
-      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
-    const _today = `${year}.${month}.${date}`;
-    this.searchStartDate = _today;
-    this.searchEndDate = _today;
+    this.searchStartDate = format('yyyy.MM.dd', new Date());
+    this.searchEndDate = format('yyyy.MM.dd', new Date());
     this.clickSearchMoneyBookList();
   },
 };
@@ -99,7 +95,10 @@ export default {
 .content__section {
   flex-shrink: 2;
 }
-textarea {
-  resize: none;
+.moneybook__list__section > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
