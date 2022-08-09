@@ -29,9 +29,11 @@
     </section>
     <section class="moneybook__list__section">
       <ul>
-        <li v-for="moneyBook in moneybookList" :key="moneyBook.id">
-          <MoneyBookPost :moneyBook="moneyBook" />
-        </li>
+        <MoneyBookPost
+          v-for="moneyBook in moneybookList"
+          :key="moneyBook.id"
+          :moneyBook="moneyBook"
+        />
       </ul>
     </section>
     <router-link to="/main/write" class="write__button">
