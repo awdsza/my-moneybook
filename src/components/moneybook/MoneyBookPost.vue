@@ -1,13 +1,15 @@
 <template>
   <li>
-    {{ moneyBook.bookTitle }} | {{ moneyBook.amount }} |
-    {{ moneyBook.inOut === 'income' ? '수입' : '지출' }} |
-    {{
-      moneyBook.inOut === 'income'
-        ? moneyBook.inPurpose
-        : moneyBook.outGoingPurposeText
-    }}
-    | {{ convertDate }}
+    <a @click="fnOnClickDetailPage">
+      {{ moneyBook.bookTitle }} | {{ moneyBook.amount }} |
+      {{ moneyBook.inOut === 'income' ? '수입' : '지출' }} |
+      {{
+        moneyBook.inOut === 'income'
+          ? moneyBook.inPurpose
+          : moneyBook.outGoingPurposeText
+      }}
+      | {{ convertDate }}
+    </a>
   </li>
 </template>
 
@@ -24,6 +26,11 @@ export default {
       const { bookDate } = this.moneyBook;
 
       return format('yyyy.MM.dd hh:mm', new Date(bookDate));
+    },
+  },
+  methods: {
+    fnOnClickDetailPage() {
+      this.$router.push(`/main/${this.moneyBook.seq}`);
     },
   },
 };
