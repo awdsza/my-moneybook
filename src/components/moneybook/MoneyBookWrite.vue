@@ -73,6 +73,14 @@
       <section class="button__section">
         <button type="submit" class="btn">등록</button>
         <button type="reset" class="btn">초기화</button>
+        <button
+          type="button"
+          class="btn"
+          @click="fnOnClickDelete"
+          v-show="paramSeq"
+        >
+          삭제
+        </button>
       </section>
     </form>
   </section>
@@ -81,6 +89,7 @@
 <script>
 import { outGoingPurposeCodeList } from '@/storage/index';
 import * as format from 'date-format';
+import { DELETE } from '@/api';
 export default {
   components: {},
   data() {
@@ -141,7 +150,17 @@ export default {
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
     },
+    async fnOnClickDelete() {
+      if (confirm('삭제하시겠습니까?')) {
+        const { isSuccess } = await DELETE(`/accountbook/${this.paramSeq}`);
+        if (isSuccess) {
+          alert('삭제 되었습니다');
+          this.$router.push('/main/list');
+        }
+      }
+    },
   },
+
   async created() {
     const { seq: paramSeq } = this.$route.params;
     if (paramSeq) {
