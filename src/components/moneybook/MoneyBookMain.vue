@@ -1,31 +1,43 @@
 <template>
   <div>
-    <section>
-      <vc-date-picker
-        v-model="searchStartDate"
-        :model-config="{
-          type: 'string',
-          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
-        }"
-      >
-        <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" @click="togglePopover()" type="text" />
-        </template>
-      </vc-date-picker>
-      <vc-date-picker
-        v-model="searchEndDate"
-        :model-config="{
-          type: 'string',
-          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
-        }"
-      >
-        <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" @click="togglePopover()" type="text" />
-        </template>
-      </vc-date-picker>
-      <button type="button" class="btn" @click="clickSearchMoneyBookList">
-        검색
-      </button>
+    <section class="search__section">
+      <section class="search__date__section">
+        <vc-date-picker
+          v-model="searchStartDate"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+          }"
+          @dayclick="clickSearchDate"
+        >
+          <template v-slot="{ inputValue, togglePopover }">
+            <input
+              :value="inputValue"
+              @click="togglePopover()"
+              type="text"
+              class="input__calendar"
+            />
+          </template>
+        </vc-date-picker>
+        <span class="hyphen"></span>
+        <vc-date-picker
+          v-model="searchEndDate"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+          }"
+          @dayclick="clickSearchDate"
+        >
+          <template v-slot="{ inputValue, togglePopover }">
+            <input
+              :value="inputValue"
+              @click="togglePopover()"
+              type="text"
+              class="input__calendar"
+            />
+          </template>
+        </vc-date-picker>
+      </section>
     </section>
     <section class="moneybook__list__section">
       <ul>
@@ -68,7 +80,7 @@ export default {
     submitMoneyBookPost() {
       console.log('submit');
     },
-    async clickSearchMoneyBookList() {
+    async clickSearchDate() {
       if (new Date(this.searchStartDate) - new Date(this.searchEndDate) > 0) {
         alert('종료일보다 시작일이 클수 없습니다');
         return;
@@ -86,12 +98,29 @@ export default {
   async created() {
     this.searchStartDate = format('yyyy.MM.dd', new Date());
     this.searchEndDate = format('yyyy.MM.dd', new Date());
-    this.clickSearchMoneyBookList();
+    this.clickSearchDate();
   },
 };
 </script>
 
 <style scoped>
+.search__section {
+  padding: 10px 20px;
+}
+.search__date__section {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  max-height: 3rem;
+}
+.hyphen {
+  display: block;
+  width: 2rem;
+  height: 0.3rem;
+  background: #898989;
+  margin: 0 1rem;
+}
 .content__section {
   flex-shrink: 2;
 }
@@ -100,5 +129,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
