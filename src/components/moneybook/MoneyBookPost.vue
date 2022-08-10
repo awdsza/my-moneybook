@@ -19,18 +19,7 @@
     >
       {{ moneyBook.amount }}
     </section>
-    <!-- <section class="post-time">
-      <a >
-        <FontAwesomeIcon icon="fa-solid fa-plus" />
-      </a>
-      <a @click="fnOnClickDelete">
-        <FontAwesomeIcon icon="fa-solid fa-trash" />
-      </a>
-    </section> -->
   </li>
-  <!-- <p class="read_todo active">${data}</p>
-  <a class="delete_todo">삭제하기</a
-  ><input class="update_todo" type="text" value="${data}" />`; -->
 </template>
 
 <script>
