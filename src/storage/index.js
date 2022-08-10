@@ -14,35 +14,5 @@ const getOutGoingPurpose = outGoingCode => {
     ({ value }) => value === outGoingCode,
   )?.[0]?.name;
 };
-const getMoneyBookList = userId => {
-  let moneybookList = JSON.parse(localStorage.getItem('moneyBookList') || '[]');
-  moneybookList = moneybookList.map(moneybook => {
-    return {
-      ...moneybook,
-      outGoingPurposeText: getOutGoingPurpose(moneybook.outGoingPurpose),
-    };
-  });
-  return userId
-    ? moneybookList
-    : moneybookList.filter(({ _userId }) => _userId === userId);
-};
-const createMoneyBookData = bookData => {
-  try {
-    const myMoneyBookData = getMoneyBookList();
-    const lastID = myMoneyBookData[myMoneyBookData.length - 1]
-      ? myMoneyBookData[myMoneyBookData.length - 1]['id']
-      : 1;
-    localStorage.setItem(
-      'moneyBookList',
-      JSON.stringify([...myMoneyBookData, { ...bookData, id: lastID + 1 }]),
-    );
-  } catch (e) {
-    console.error(e);
-  }
-};
-export {
-  outGoingPurposeCodeList,
-  getMoneyBookList,
-  createMoneyBookData,
-  getOutGoingPurpose,
-};
+
+export { outGoingPurposeCodeList, getOutGoingPurpose };
