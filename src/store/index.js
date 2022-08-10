@@ -11,6 +11,7 @@ import {
   saveUserSeqToCookie,
   getUserSeqFromCookie,
 } from '@/utils/cookies';
+import { getOutGoingPurpose } from '@/storage';
 export default new Vuex.Store({
   state: {
     token: getAuthFromCookie() || '',
@@ -67,7 +68,10 @@ export default new Vuex.Store({
         const result = await GET(
           `/accountbook/${getUserSeqFromCookie()}/bookDate/${searchStartDate}/${searchEndDate}`,
         );
-        return result;
+        return result.map(accountbook => ({
+          ...accountbook,
+          outGoingPurposeText: getOutGoingPurpose(accountbook.outGoingPurpose),
+        }));
       } catch (e) {
         return e;
       }

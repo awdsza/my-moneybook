@@ -1,31 +1,43 @@
 <template>
   <div>
-    <section>
-      <vc-date-picker
-        v-model="searchStartDate"
-        :model-config="{
-          type: 'string',
-          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
-        }"
-      >
-        <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" @click="togglePopover()" type="text" />
-        </template>
-      </vc-date-picker>
-      <vc-date-picker
-        v-model="searchEndDate"
-        :model-config="{
-          type: 'string',
-          mask: 'YYYY.MM.DD', // Uses 'iso' if missing
-        }"
-      >
-        <template v-slot="{ inputValue, togglePopover }">
-          <input :value="inputValue" @click="togglePopover()" type="text" />
-        </template>
-      </vc-date-picker>
-      <button type="button" class="btn" @click="clickSearchMoneyBookList">
-        검색
-      </button>
+    <section class="search__section">
+      <section class="search__date__section">
+        <vc-date-picker
+          v-model="searchStartDate"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+          }"
+          @dayclick="clickSearchDate"
+        >
+          <template v-slot="{ inputValue, togglePopover }">
+            <input
+              :value="inputValue"
+              @click="togglePopover()"
+              type="text"
+              class="input__calendar"
+            />
+          </template>
+        </vc-date-picker>
+        <span class="hyphen"></span>
+        <vc-date-picker
+          v-model="searchEndDate"
+          :model-config="{
+            type: 'string',
+            mask: 'YYYY.MM.DD', // Uses 'iso' if missing
+          }"
+          @dayclick="clickSearchDate"
+        >
+          <template v-slot="{ inputValue, togglePopover }">
+            <input
+              :value="inputValue"
+              @click="togglePopover()"
+              type="text"
+              class="input__calendar"
+            />
+          </template>
+        </vc-date-picker>
+      </section>
     </section>
     <section class="moneybook__list__section">
       <ul>
@@ -54,6 +66,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
 import MoneyBookPost from '@/components/moneybook/MoneyBookPost.vue';
+import * as format from 'date-format';
 export default {
   components: { FontAwesomeIcon, MoneyBookPost },
   data() {
@@ -67,7 +80,7 @@ export default {
     submitMoneyBookPost() {
       console.log('submit');
     },
-    async clickSearchMoneyBookList() {
+    async clickSearchDate() {
       if (new Date(this.searchStartDate) - new Date(this.searchEndDate) > 0) {
         alert('종료일보다 시작일이 클수 없습니다');
         return;
@@ -83,25 +96,39 @@ export default {
     },
   },
   async created() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month =
-      today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth();
-    const date =
-      today.getDate() + 1 < 10 ? `0${today.getDate()}` : today.getDate();
-    const _today = `${year}.${month}.${date}`;
-    this.searchStartDate = _today;
-    this.searchEndDate = _today;
-    this.clickSearchMoneyBookList();
+    this.searchStartDate = format('yyyy.MM.dd', new Date());
+    this.searchEndDate = format('yyyy.MM.dd', new Date());
+    this.clickSearchDate();
   },
 };
 </script>
 
 <style scoped>
+.search__section {
+  padding: 10px 20px;
+}
+.search__date__section {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  max-height: 3rem;
+}
+.hyphen {
+  display: block;
+  width: 2rem;
+  height: 0.3rem;
+  background: #898989;
+  margin: 0 1rem;
+}
 .content__section {
   flex-shrink: 2;
 }
-textarea {
-  resize: none;
+.moneybook__list__section > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
