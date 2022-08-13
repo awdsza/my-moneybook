@@ -1,14 +1,14 @@
 <template>
   <main>
-    <MoneyBookMain />
+    <AccountBookMain />
   </main>
 </template>
 
 <script>
-import MoneyBookMain from '@/components/moneybook/MoneyBookMain.vue';
+import AccountBookMain from '@/components/accountbook/AccountBookMain.vue';
 export default {
   components: {
-    MoneyBookMain,
+    AccountBookMain,
   },
 };
 </script>
