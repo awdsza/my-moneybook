@@ -66,7 +66,7 @@ export default new Vuex.Store({
     async getAccountBookList({ commit }, { searchStartDate, searchEndDate }) {
       try {
         const result = await GET(
-          `/accountbook/${getUserSeqFromCookie()}/bookDate/${searchStartDate}/${searchEndDate}`,
+          `/accountbook?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
         );
         return result.map(accountbook => ({
           ...accountbook,
