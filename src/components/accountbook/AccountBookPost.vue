@@ -5,19 +5,19 @@
     </section>
     <section>
       {{
-        moneyBook.inOut === 'income'
-          ? moneyBook.inPurpose
-          : moneyBook.outGoingPurposeText
+        accountBook.inOut === 'income'
+          ? accountBook.inPurpose
+          : accountBook.outGoingPurposeText
       }}
     </section>
     <section class="post-title">
-      {{ moneyBook.bookTitle }}
+      {{ accountBook.bookTitle }}
     </section>
     <section
       class=""
-      :class="moneyBook.inOut === 'income' ? 'incomeColor' : 'outGoingColor'"
+      :class="accountBook.inOut === 'income' ? 'incomeColor' : 'outGoingColor'"
     >
-      {{ moneyBook.amount }}
+      {{ accountBook.amount }}
     </section>
   </li>
 </template>
@@ -27,20 +27,20 @@ import * as format from 'date-format';
 
 export default {
   props: {
-    moneyBook: {
+    accountBook: {
       type: Object,
     },
   },
   computed: {
     convertDate() {
-      const { bookDate } = this.moneyBook;
+      const { bookDate } = this.accountBook;
 
       return format('yyyy.MM.dd hh:mm', new Date(bookDate));
     },
   },
   methods: {
     fnOnClickDetailPage() {
-      this.$router.push(`/main/${this.moneyBook.seq}`);
+      this.$router.push(`/main/${this.accountBook.seq}`);
     },
   },
 };

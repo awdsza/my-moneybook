@@ -16,15 +16,15 @@ const router = new VueRouter({
     },
     {
       path: '/main/list',
-      component: () => import('@/views/moneybook/MoneyBookMainView.vue'),
+      component: () => import('@/views/accountbook/AccountBookMainView.vue'),
     },
     {
       path: '/main/write',
-      component: () => import('@/views/moneybook/MoneyBookWriteView.vue'),
+      component: () => import('@/views/accountbook/AccountBookWriteView.vue'),
     },
     {
       path: '/main/:seq',
-      component: () => import('@/views/moneybook/MoneyBookWriteView.vue'),
+      component: () => import('@/views/accountbook/AccountBookWriteView.vue'),
     },
     {
       path: '/main/info',
