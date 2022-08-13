@@ -1,11 +1,11 @@
 <template>
   <section class="content__section">
     <form @submit.prevent="submitMoneyBookPost">
-      <div class="item__content">
+      <section class="item__content">
         <label class="item__label" for="amount">비용 </label>
         <input type="number" v-model="amount" id="amount" />
-      </div>
-      <div>
+      </section>
+      <section class="item__content">
         <label class="item__label" for="inOut">분류</label>
         <section class="button__section in__out__section">
           <button
@@ -25,8 +25,8 @@
             지출
           </button>
         </section>
-      </div>
-      <div>
+      </section>
+      <section class="item__content">
         <label class="item__label" for="bookDate">일정 </label>
         <vc-date-picker
           v-model="bookDate"
@@ -46,12 +46,12 @@
             />
           </template>
         </vc-date-picker>
-      </div>
-      <div>
+      </section>
+      <section class="item__content">
         <label class="item__label" for="bookTitle">제목 </label>
         <input v-model="bookTitle" id="bookTitle" type="text" />
-      </div>
-      <div>
+      </section>
+      <section class="item__content">
         <label class="item__label" for="purpose">{{
           inOut === 'outGoing' ? '사용내역' : '내역'
         }}</label>
@@ -69,10 +69,18 @@
           </option>
         </select>
         <input type="text" v-else v-model="inPurpose" />
-      </div>
-      <section class="button__section">
+      </section>
+      <section class="button__section item__content">
         <button type="submit" class="btn">등록</button>
         <button type="reset" class="btn">초기화</button>
+        <button
+          type="button"
+          class="btn"
+          @click="fnOnClickDelete"
+          v-show="paramSeq"
+        >
+          삭제
+        </button>
       </section>
     </form>
   </section>
@@ -81,6 +89,7 @@
 <script>
 import { outGoingPurposeCodeList } from '@/storage/index';
 import * as format from 'date-format';
+import { DELETE } from '@/api';
 export default {
   components: {},
   data() {
@@ -141,7 +150,17 @@ export default {
       alert('등록이 완료되었습니다');
       this.$router.push('/main/list');
     },
+    async fnOnClickDelete() {
+      if (confirm('삭제하시겠습니까?')) {
+        const { isSuccess } = await DELETE(`/accountbook/${this.paramSeq}`);
+        if (isSuccess) {
+          alert('삭제 되었습니다');
+          this.$router.push('/main/list');
+        }
+      }
+    },
   },
+
   async created() {
     const { seq: paramSeq } = this.$route.params;
     if (paramSeq) {
@@ -188,6 +207,7 @@ export default {
   border: 0px;
   color: #fff;
 }
-.item__label {
+.item__content:nth-child(n + 1) {
+  margin-top: 10px;
 }
 </style>

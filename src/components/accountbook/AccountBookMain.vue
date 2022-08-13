@@ -41,10 +41,10 @@
     </section>
     <section class="moneybook__list__section">
       <ul>
-        <MoneyBookPost
-          v-for="moneyBook in moneybookList"
-          :key="moneyBook.id"
-          :moneyBook="moneyBook"
+        <AccountBookPost
+          v-for="accountBook in accountBookList"
+          :key="accountBook.id"
+          :accountBook="accountBook"
         />
       </ul>
     </section>
@@ -65,19 +65,19 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
 library.add(faPlus);
-import MoneyBookPost from '@/components/moneybook/MoneyBookPost.vue';
+import AccountBookPost from '@/components/accountbook/AccountBookPost.vue';
 import * as format from 'date-format';
 export default {
-  components: { FontAwesomeIcon, MoneyBookPost },
+  components: { FontAwesomeIcon, AccountBookPost },
   data() {
     return {
-      moneybookList: [],
+      accountBookList: [],
       searchEndDate: '',
       searchStartDate: '',
     };
   },
   methods: {
-    submitMoneyBookPost() {
+    submitAccountBookPost() {
       console.log('submit');
     },
     async clickSearchDate() {
