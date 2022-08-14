@@ -55,7 +55,7 @@ export default {
   position: relative;
   flex-grow: 1;
   width: 100%;
-  height: 5rem;
+  height: 3rem;
   margin: 7px 0;
   padding: 10px 20px;
   background: white;
