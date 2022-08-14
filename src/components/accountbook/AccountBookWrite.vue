@@ -30,10 +30,9 @@
         <label class="item__label" for="bookDate">일정 </label>
         <vc-date-picker
           v-model="bookDate"
-          mode="dateTime"
           :model-config="{
             type: 'string',
-            mask: 'YYYY.MM.DD HH:mm:ss', // Uses 'iso' if missing
+            mask: 'YYYY.MM.DD', // Uses 'iso' if missing
           }"
           is24hr
         >
