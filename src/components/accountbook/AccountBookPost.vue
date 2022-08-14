@@ -15,7 +15,11 @@
     </section>
     <section
       class=""
-      :class="accountBook.inOut === 'income' ? 'incomeColor' : 'outGoingColor'"
+      :class="
+        accountBook.inOut.toLowerCase() === 'income'
+          ? 'incomeColor'
+          : 'outGoingColor'
+      "
     >
       {{ accountBook.amount }}
     </section>
