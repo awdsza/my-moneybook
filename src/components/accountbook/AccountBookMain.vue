@@ -91,7 +91,7 @@ export default {
         searchEndDate: this.searchEndDate.replace(/\./gi, '-'),
       });
       if (result) {
-        this.moneybookList = result;
+        this.accountBookList = result;
       }
     },
   },

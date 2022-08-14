@@ -44,6 +44,7 @@ export default {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
+  z-index: 9999;
 }
 .nav__section div {
   width: 50%;

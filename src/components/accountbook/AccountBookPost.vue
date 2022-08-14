@@ -15,7 +15,11 @@
     </section>
     <section
       class=""
-      :class="accountBook.inOut === 'income' ? 'incomeColor' : 'outGoingColor'"
+      :class="
+        accountBook.inOut.toLowerCase() === 'income'
+          ? 'incomeColor'
+          : 'outGoingColor'
+      "
     >
       {{ accountBook.amount }}
     </section>
@@ -51,7 +55,7 @@ export default {
   position: relative;
   flex-grow: 1;
   width: 100%;
-  height: 5rem;
+  height: 3rem;
   margin: 7px 0;
   padding: 10px 20px;
   background: white;
