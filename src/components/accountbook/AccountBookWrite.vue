@@ -176,14 +176,14 @@ export default {
       if (seq) {
         this.amount = amount;
         this.inOut = inOut;
-        this.bookDate = format('yyyy.MM.dd hh:mm', new Date(bookDate));
+        this.bookDate = format('yyyy.MM.dd', new Date(bookDate));
         this.bookTitle = bookTitle;
         this.inPurpose = inPurpose;
         this.outGoingPurpose = outGoingPurpose;
       }
       return;
     }
-    this.bookDate = format('yyyy.MM.dd hh:mm', new Date());
+    this.bookDate = format('yyyy.MM.dd', new Date());
   },
 };
 </script>
