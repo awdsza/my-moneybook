@@ -39,7 +39,7 @@ export default {
     convertDate() {
       const { bookDate } = this.accountBook;
 
-      return format('yyyy.MM.dd hh:mm', new Date(bookDate));
+      return format('yyyy.MM.dd', new Date(bookDate));
     },
   },
   methods: {
