@@ -7,7 +7,7 @@ const getFirstDate = date => {
   return date;
 };
 const getLastDate = date => {
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const year = date.getFullYear();
   if (
     month === 1 ||
