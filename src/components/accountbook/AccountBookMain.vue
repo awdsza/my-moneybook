@@ -8,7 +8,7 @@
             type: 'string',
             mask: 'YYYY.MM.DD', // Uses 'iso' if missing
           }"
-          @dayclick="clickSearchDate"
+          @dayclick="clickSearchDate('searchStartDate')"
         >
           <template v-slot="{ inputValue, togglePopover }">
             <input
@@ -16,6 +16,7 @@
               @click="togglePopover()"
               type="text"
               class="input__calendar"
+              ref="searchStartDate"
             />
           </template>
         </vc-date-picker>
@@ -26,7 +27,7 @@
             type: 'string',
             mask: 'YYYY.MM.DD', // Uses 'iso' if missing
           }"
-          @dayclick="clickSearchDate"
+          @dayclick="clickSearchDate('searchEndDate')"
         >
           <template v-slot="{ inputValue, togglePopover }">
             <input
@@ -34,6 +35,7 @@
               @click="togglePopover()"
               type="text"
               class="input__calendar"
+              ref="searchEndDate"
             />
           </template>
         </vc-date-picker>
@@ -80,10 +82,42 @@ export default {
     submitAccountBookPost() {
       console.log('submit');
     },
-    async clickSearchDate() {
-      if (new Date(this.searchStartDate) - new Date(this.searchEndDate) > 0) {
-        alert('종료일보다 시작일이 클수 없습니다');
-        return;
+    async clickSearchDate(ref) {
+      const diffDay =
+        new Date(this.searchStartDate) - new Date(this.searchEndDate);
+      if (diffDay > 0) {
+        const targetDate = new Date(this.searchStartDate);
+        const changeDate = new Date(targetDate);
+
+        changeDate.setDate(targetDate.getDate() + 30);
+        this.searchEndDate = format(
+          'yyyy.MM.dd',
+          new Date(
+            changeDate.getFullYear(),
+            changeDate.getMonth(),
+            changeDate.getDate(),
+          ),
+        );
+      }
+      //검색일자 기준이 30일 초과시 선택한 일자 기준으로 최대 30일 이내로 맞춘다.
+      if (Math.abs(diffDay / (1000 * 60 * 60 * 24)) > 30) {
+        const targetDate = new Date(this[ref]);
+        const changeDate = new Date(targetDate);
+
+        if (ref === 'searchStartDate') {
+          changeDate.setDate(targetDate.getDate() + 30);
+        } else {
+          changeDate.setDate(targetDate.getDate() - 30);
+        }
+        this[ref === 'searchStartDate' ? 'searchEndDate' : 'searchStartDate'] =
+          format(
+            'yyyy.MM.dd',
+            new Date(
+              changeDate.getFullYear(),
+              changeDate.getMonth(),
+              changeDate.getDate(),
+            ),
+          );
       }
       const result = await this.$store.dispatch('getAccountBookList', {
         token: this.$store.state.token,
@@ -96,7 +130,12 @@ export default {
     },
   },
   async created() {
-    this.searchStartDate = format('yyyy.MM.dd', new Date());
+    const startDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1,
+    );
+    this.searchStartDate = format('yyyy.MM.dd', startDate);
     this.searchEndDate = format('yyyy.MM.dd', new Date());
     this.clickSearchDate();
   },
