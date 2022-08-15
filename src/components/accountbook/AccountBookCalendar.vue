@@ -23,11 +23,15 @@
         </div>
       </template>
     </vc-calendar>
+    <router-link to="/main/write" class="write__button">
+      <Icon :icon="'fa-solid fa-plus'" />
+    </router-link>
   </div>
 </template>
 
 <script>
 import AccountBookCalendarAttribute from '@/components/accountbook/AccountBookCalendarAttribute.vue';
+import Icon from '@/components/common/Icon.vue';
 import {
   parseFormatDateString,
   getFirstDate,
@@ -37,6 +41,7 @@ import {
 export default {
   components: {
     AccountBookCalendarAttribute,
+    Icon,
   },
   methods: {
     fnOnClickMonth({ year, month }) {
@@ -124,6 +129,8 @@ export default {
   height: var(--day-height);
   min-width: var(--day-width);
   background-color: white;
+  border-bottom: var(--weekday-border);
+  border-top: var(--weekday-border);
 }
 .custom-calendar.vc-container.vc-day.weekday-1,
 .custom-calendar.vc-container.vc-day.weekday-7 {
