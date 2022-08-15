@@ -96,7 +96,12 @@ export default {
     },
   },
   async created() {
-    this.searchStartDate = format('yyyy.MM.dd', new Date());
+    const startDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1,
+    );
+    this.searchStartDate = format('yyyy.MM.dd', startDate);
     this.searchEndDate = format('yyyy.MM.dd', new Date());
     this.clickSearchDate();
   },
