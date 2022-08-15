@@ -51,26 +51,17 @@
       </ul>
     </section>
     <router-link to="/main/write" class="write__button">
-      <FontAwesomeIcon icon="fa-solid fa-plus" />
+      <Icon :icon="'fa-solid fa-plus'" />
     </router-link>
   </div>
 </template>
 
 <script>
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core';
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-/* import specific icons */
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-/* add icons to the library */
-library.add(faPlus);
 import AccountBookPost from '@/components/accountbook/AccountBookPost.vue';
+import Icon from '@/components/common/Icon.vue';
 import * as format from 'date-format';
 export default {
-  components: { FontAwesomeIcon, AccountBookPost },
+  components: { Icon, AccountBookPost },
   data() {
     return {
       accountBookList: [],

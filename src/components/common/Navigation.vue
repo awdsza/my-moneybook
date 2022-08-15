@@ -2,12 +2,12 @@
   <nav class="nav__section">
     <div class="nav__item">
       <router-link to="/main/list"
-        ><FontAwesomeIcon icon="fa-solid fa-list"
+        ><Icon :icon="'fa-solid fa-list'"
       /></router-link>
     </div>
     <div class="nav__item">
       <router-link to="/main/info"
-        ><FontAwesomeIcon icon="fa-solid fa-circle-info"
+        ><Icon :icon="'fa-solid fa-circle-info'"
       /></router-link>
     </div>
   </nav>
@@ -15,19 +15,10 @@
 
 <script>
 /* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core';
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-/* import specific icons */
-import { faList, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-/* add icons to the library */
-library.add(faList, faCircleInfo);
-
+import Icon from '@/components/common/Icon.vue';
 export default {
   components: {
-    FontAwesomeIcon,
+    Icon,
   },
 };
 </script>
