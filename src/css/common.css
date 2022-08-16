@@ -1,7 +1,10 @@
 body{
     background-color: #f7f6f9;   
-    
+    -ms-overflow-style: none;
 }
+::-webkit-scrollbar {
+    display: none;
+  }
 .app{
     position: relative;
     width:100%;
