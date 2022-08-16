@@ -57,7 +57,7 @@ select {
 a{
     color: #364f6b;
 }
-a:hover{
+.btn:hover{
     color:#8d39a3;
     background-color: whitesmoke;
 }
