@@ -66,20 +66,24 @@ export default {
       });
 
       if (result) {
-        this.attributes = result.map(({ bookTitle: title, bookDate }, key) => ({
-          key,
-          customData: {
-            title,
-            class: 'calendar__title__outgoing calendar__title__text',
-          },
-          dates: parseFormatDateString(new Date(bookDate), 'yyyy.MM.dd'),
-        }));
+        this.attributes = result.map(
+          ({ bookTitle: title, bookDate, inOut }, key) => ({
+            key,
+            customData: {
+              title,
+              class: `${
+                inOut === 'inCome'
+                  ? 'calendar__title__income'
+                  : 'calendar__title__outgoing'
+              } calendar__title__text`,
+            },
+            dates: parseFormatDateString(new Date(bookDate), 'yyyy.MM.dd'),
+          }),
+        );
       }
     },
   },
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
     return {
       searchMonth: new Date(),
       masks: {
@@ -91,68 +95,59 @@ export default {
 };
 </script>
 
-<style scoped>
-::-webkit-scrollbar {
+<style>
+.scrollbar {
   width: 0px;
 }
-::-webkit-scrollbar-track {
+.scrollbar-track {
   display: none;
-}
-:root {
-  --day-border: 1px solid #b8c2cc;
-  --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
-  --day-height: 90px;
-  --weekday-bg: #f8fafc;
-  --weekday-border: 1px solid #eaeaea;
 }
 .custom-calendar.vc-container {
   border-radius: 0;
   width: 100%;
 }
-.vc-header {
+.custom-calendar.vc-container .vc-header {
   background-color: #f1f5f8;
   padding: 10px 0;
 }
-.vc-weeks {
+.custom-calendar.vc-container .vc-weeks {
   padding: 0;
 }
-.vc-weekday {
-  background-color: var(--weekday-bg);
-  border-bottom: var(--weekday-border);
-  border-top: var(--weekday-border);
+.custom-calendar.vc-container .vc-weekday {
+  background-color: #f8fafc;
+  border-bottom: 1px solid #eaeaea;
+  border-top: 1px solid #eaeaea;
   padding: 5px 0;
 }
-.vc-day {
+.custom-calendar.vc-container .vc-day {
   padding: 0 5px 3px 5px;
   text-align: left;
-  height: var(--day-height);
-  min-width: var(--day-width);
+  height: 10vh;
+  width: 100%;
+  overflow: auto;
   background-color: white;
-  border-bottom: var(--weekday-border);
-  border-top: var(--weekday-border);
 }
-.custom-calendar.vc-container.vc-day.weekday-1,
-.custom-calendar.vc-container.vc-day.weekday-7 {
+.custom-calendar.vc-container .vc-day.weekday-1,
+.custom-calendar.vc-container .vc-day.weekday-7 {
   background-color: #eff8ff;
 }
-.custom-calendar.vc-container.vc-day:not(.on-bottom) {
-  border-bottom: var(--day-border);
+.custom-calendar.vc-container .vc-day:not(.on-bottom) {
+  border-bottom: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day:not(.on-bottom).weekday-1 {
-  border-bottom: var(--day-border-highlight);
+.custom-calendar.vc-container .vc-day:not(.on-bottom).weekday-1 {
+  border-bottom: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day:not(.on-right) {
-  border-right: var(--day-border);
+.custom-calendar.vc-container .vc-day:not(.on-right) {
+  border-right: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day-dots {
+.custom-calendar.vc-container .vc-day-dots {
   margin-bottom: 5px;
 }
 .calendar__title__outgoing {
   background: #e43123;
 }
-.calendar__title_income {
-  color: #4e32db;
+.calendar__title__income {
+  background: #4e32db;
 }
 .calendar__title__text {
   color: #fff;
