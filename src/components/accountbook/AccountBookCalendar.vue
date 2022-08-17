@@ -59,27 +59,25 @@ export default {
         'yyyy-MM-dd',
       );
 
-      const result = await this.$store.dispatch('getAccountBookList', {
+      const result = await this.$store.dispatch('getAccountBookCalendarList', {
         token: this.$store.state.token,
         searchStartDate,
         searchEndDate,
       });
 
       if (result) {
-        this.attributes = result.map(
-          ({ bookTitle: title, bookDate, inOut }, key) => ({
-            key,
-            customData: {
-              title,
-              class: `${
-                inOut === 'inCome'
-                  ? 'calendar__title__income'
-                  : 'calendar__title__outgoing'
-              } calendar__title__text`,
-            },
-            dates: parseFormatDateString(new Date(bookDate), 'yyyy.MM.dd'),
-          }),
-        );
+        this.attributes = result.map(({ bookDate, inOut, amount }, key) => ({
+          key,
+          customData: {
+            amount: `${inOut === 'inCome' ? `+${amount}` : `-${amount}`}`,
+            class: `${
+              inOut === 'inCome'
+                ? 'calendar__title__income'
+                : 'calendar__title__outgoing'
+            }`,
+          },
+          dates: new Date(bookDate),
+        }));
       }
     },
   },
@@ -144,14 +142,9 @@ export default {
   margin-bottom: 5px;
 }
 .calendar__title__outgoing {
-  background: #e43123;
+  background: #f15b4f;
 }
 .calendar__title__income {
-  background: #4e32db;
-}
-.calendar__title__text {
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.7rem;
+  background: #816de4;
 }
 </style>
