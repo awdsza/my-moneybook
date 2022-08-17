@@ -1,6 +1,6 @@
 <template>
   <p class="calendar__memo" :class="attr.customData.class">
-    {{ attr.customData.title }}
+    {{ attr.customData.amount }}
   </p>
 </template>
 
@@ -10,6 +10,18 @@ export default {
     attr: {
       type: Object,
     },
+  },
+
+  methods: {
+    fnOnClickAttribute() {},
+    closeModal() {
+      this.isOpenModal = false;
+    },
+  },
+  data() {
+    return {
+      isOpenModal: false,
+    };
   },
 };
 </script>
@@ -24,6 +36,11 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
+}
+.calendar__title__text {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.7rem;
 }
 .calendar__memo:nth-child(1) {
   margin-top: 0.25rem;
