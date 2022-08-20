@@ -1,11 +1,15 @@
 <template>
-  <p class="calendar__memo" :class="attr.customData.class">
+  <p
+    class="calendar__memo calendar__title__text"
+    :class="attr.customData.class"
+  >
     {{ attr.customData.amount }}
   </p>
 </template>
 
 <script>
 export default {
+  components: {},
   props: {
     attr: {
       type: Object,
@@ -13,7 +17,6 @@ export default {
   },
 
   methods: {
-    fnOnClickAttribute() {},
     closeModal() {
       this.isOpenModal = false;
     },
@@ -38,6 +41,8 @@ export default {
   width: 100%;
 }
 .calendar__title__text {
+  display: inline-block;
+  width: 100%;
   color: #fff;
   font-weight: 600;
   font-size: 0.7rem;
