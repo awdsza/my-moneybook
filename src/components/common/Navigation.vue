@@ -1,6 +1,6 @@
 <template>
   <nav class="nav__section">
-    <div class="nav__item">
+    <div class="nav__item active">
       <router-link to="/main/list"
         ><Icon :icon="'fa-solid fa-list'"
       /></router-link>
@@ -48,7 +48,7 @@ export default {
   width: 100%;
   background-color: #8d39a3;
 }
-.nav__item .active {
+.nav__item.active {
   background-color: azure;
 }
 .nav__item a {
