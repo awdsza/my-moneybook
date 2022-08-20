@@ -1,11 +1,11 @@
 <template>
   <li class="accountbook__item" @click="fnOnClickDetailPage">
-    <section>
+    <section v-show="accountBook.bookDate">
       {{ convertDate }}
     </section>
     <section>
       {{
-        accountBook.inOut === 'income'
+        accountBook.inOutType === 'income'
           ? accountBook.inPurpose
           : accountBook.outGoingPurposeText
       }}
@@ -16,7 +16,7 @@
     <section
       class=""
       :class="
-        accountBook.inOut.toLowerCase() === 'income'
+        accountBook.inOutType.toLowerCase() === 'income'
           ? 'incomeColor'
           : 'outGoingColor'
       "

@@ -76,6 +76,29 @@ export default new Vuex.Store({
         return e;
       }
     },
+    async getAccountBookCalendarList(
+      { commit },
+      { searchStartDate, searchEndDate },
+    ) {
+      try {
+        const result = await GET(
+          `/accountbook/calendar?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async getAccountBookCalendarDetail({ commit }, { bookDate }) {
+      try {
+        const result = await GET(
+          `/accountbook/calendar/detail?userSeq=${getUserSeqFromCookie()}&bookDate=${bookDate}`,
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
     async getAccountBook({ commit }, { seq }) {
       try {
         const result = await GET(`/accountbook/${seq}`);

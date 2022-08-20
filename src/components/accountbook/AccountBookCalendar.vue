@@ -10,7 +10,10 @@
       @update:from-page="fnOnClickMonth"
     >
       <template v-slot:day-content="{ day, attributes }">
-        <div class="flex flex-col h-full z-10 overflow-hidden">
+        <div
+          class="flex flex-col h-full z-10 overflow-hidden w-full"
+          @click="fnOnClickDay(day)"
+        >
           <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <AccountBookCalendarAttribute
@@ -23,11 +26,21 @@
         </div>
       </template>
     </vc-calendar>
+    <AccountBookCalendarDetailPopup
+      :open="isOpenModal"
+      @close="isOpenModal = false"
+      :paramDate="selectDate"
+    />
+    <router-link to="/main/write" class="write__button">
+      <Icon :icon="'fa-solid fa-plus'" />
+    </router-link>
   </div>
 </template>
 
 <script>
 import AccountBookCalendarAttribute from '@/components/accountbook/AccountBookCalendarAttribute.vue';
+import AccountBookCalendarDetailPopup from '@/components/accountbook/AccountBookCalendarDetailPopup.vue';
+import Icon from '@/components/common/Icon.vue';
 import {
   parseFormatDateString,
   getFirstDate,
@@ -37,8 +50,14 @@ import {
 export default {
   components: {
     AccountBookCalendarAttribute,
+    Icon,
+    AccountBookCalendarDetailPopup,
   },
   methods: {
+    fnOnClickDay({ date }) {
+      this.selectDate = date;
+      this.isOpenModal = true;
+    },
     fnOnClickMonth({ year, month }) {
       this.searchMonth = new Date(year, month - 1, 1);
       this.searchAccountBookList();
@@ -54,102 +73,105 @@ export default {
         'yyyy-MM-dd',
       );
 
-      const result = await this.$store.dispatch('getAccountBookList', {
+      const result = await this.$store.dispatch('getAccountBookCalendarList', {
         token: this.$store.state.token,
         searchStartDate,
         searchEndDate,
       });
 
       if (result) {
-        this.attributes = result.map(({ bookTitle: title, bookDate }, key) => ({
-          key,
-          customData: {
-            title,
-            class: 'calendar__title__outgoing calendar__title__text',
-          },
-          dates: parseFormatDateString(new Date(bookDate), 'yyyy.MM.dd'),
-        }));
+        this.attributes = result.map(
+          ({ bookDate, inOutType, amount }, key) => ({
+            key,
+            customData: {
+              amount: `${inOutType === 'inCome' ? `+${amount}` : `-${amount}`}`,
+              bookDate,
+              inOutType,
+              class: `${
+                inOutType === 'inCome'
+                  ? 'calendar__title__income'
+                  : 'calendar__title__outgoing'
+              }`,
+            },
+            popover: true,
+            dates: new Date(bookDate),
+          }),
+        );
       }
     },
   },
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
     return {
       searchMonth: new Date(),
       masks: {
         weekdays: 'WWW',
       },
       attributes: [],
+      isOpenModal: false,
+      selectDate: new Date(),
     };
   },
 };
 </script>
 
-<style scoped>
-::-webkit-scrollbar {
+<style>
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+.scrollbar {
   width: 0px;
 }
-::-webkit-scrollbar-track {
+.scrollbar-track {
   display: none;
-}
-:root {
-  --day-border: 1px solid #b8c2cc;
-  --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
-  --day-height: 90px;
-  --weekday-bg: #f8fafc;
-  --weekday-border: 1px solid #eaeaea;
 }
 .custom-calendar.vc-container {
   border-radius: 0;
   width: 100%;
 }
-.vc-header {
+.custom-calendar.vc-container .vc-header {
   background-color: #f1f5f8;
   padding: 10px 0;
 }
-.vc-weeks {
+.custom-calendar.vc-container .vc-weeks {
   padding: 0;
 }
-.vc-weekday {
-  background-color: var(--weekday-bg);
-  border-bottom: var(--weekday-border);
-  border-top: var(--weekday-border);
+.custom-calendar.vc-container .vc-weekday {
+  background-color: #f8fafc;
+  border-bottom: 1px solid #eaeaea;
+  border-top: 1px solid #eaeaea;
   padding: 5px 0;
 }
-.vc-day {
+.custom-calendar.vc-container .vc-day {
   padding: 0 5px 3px 5px;
   text-align: left;
-  height: var(--day-height);
-  min-width: var(--day-width);
+  height: 10vh;
+  width: 100%;
+  overflow: auto;
   background-color: white;
 }
-.custom-calendar.vc-container.vc-day.weekday-1,
-.custom-calendar.vc-container.vc-day.weekday-7 {
+.custom-calendar.vc-container .vc-day.weekday-1,
+.custom-calendar.vc-container .vc-day.weekday-7 {
   background-color: #eff8ff;
 }
-.custom-calendar.vc-container.vc-day:not(.on-bottom) {
-  border-bottom: var(--day-border);
+.custom-calendar.vc-container .vc-day:not(.on-bottom) {
+  border-bottom: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day:not(.on-bottom).weekday-1 {
-  border-bottom: var(--day-border-highlight);
+.custom-calendar.vc-container .vc-day:not(.on-bottom).weekday-1 {
+  border-bottom: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day:not(.on-right) {
-  border-right: var(--day-border);
+.custom-calendar.vc-container .vc-day:not(.on-right) {
+  border-right: 1px solid #b8c2cc;
 }
-.custom-calendar.vc-container.vc-day-dots {
+.custom-calendar.vc-container .vc-day-dots {
   margin-bottom: 5px;
 }
 .calendar__title__outgoing {
-  background: #e43123;
+  background: #f15b4f;
 }
-.calendar__title_income {
-  color: #4e32db;
-}
-.calendar__title__text {
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.7rem;
+.calendar__title__income {
+  background: #816de4;
 }
 </style>

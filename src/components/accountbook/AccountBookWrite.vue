@@ -6,21 +6,21 @@
         <input type="number" v-model="amount" id="amount" />
       </section>
       <section class="item__content">
-        <label class="item__label" for="inOut">분류</label>
+        <label class="item__label" for="inOutType">분류</label>
         <section class="button__section in__out__section">
           <button
             type="button"
             class="btn"
-            :class="inOut === 'inCome' ? 'active' : ''"
-            @click="inOut = 'inCome'"
+            :class="inOutType === 'inCome' ? 'active' : ''"
+            @click="inOutType = 'inCome'"
           >
             수입
           </button>
           <button
             type="button "
             class="btn"
-            :class="inOut === 'outGoing' ? 'active' : ''"
-            @click="inOut = 'outGoing'"
+            :class="inOutType === 'outGoing' ? 'active' : ''"
+            @click="inOutType = 'outGoing'"
           >
             지출
           </button>
@@ -52,12 +52,12 @@
       </section>
       <section class="item__content">
         <label class="item__label" for="purpose">{{
-          inOut === 'outGoing' ? '사용내역' : '내역'
+          inOutType === 'outGoing' ? '사용내역' : '내역'
         }}</label>
         <select
           id="purpose"
           v-model="outGoingPurpose"
-          v-if="inOut === 'outGoing'"
+          v-if="inOutType === 'outGoing'"
         >
           <option
             v-for="{ value, name } in outGoingPurposeCodeList"
@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       paramSeq: '',
-      inOut: 'outGoing',
+      inOutType: 'outGoing',
       bookDate: '',
       bookTitle: '',
       bookContents: '',
@@ -116,7 +116,7 @@ export default {
         alert('제목을 입력해주세요');
         return;
       }
-      if (this.inOut === 'income' && !this.inPurpose) {
+      if (this.inOutType === 'income' && !this.inPurpose) {
         alert('수입 내용을 입력해주세요');
         return;
       }
@@ -127,7 +127,7 @@ export default {
           token: this.$store.state.token,
           amount: this.amount,
           bookTitle: this.bookTitle,
-          inOut: this.inOut,
+          inOutType: this.inOutType,
           inPurpose: this.inPurpose,
           outGoingPurpose: this.outGoingPurpose,
           bookDate: this.bookDate,
@@ -137,7 +137,7 @@ export default {
           token: this.$store.state.token,
           amount: this.amount,
           bookTitle: this.bookTitle,
-          inOut: this.inOut,
+          inOutType: this.inOutType,
           inPurpose: this.inPurpose,
           outGoingPurpose: this.outGoingPurpose,
           bookDate: this.bookDate,
@@ -166,7 +166,7 @@ export default {
       this.paramSeq = paramSeq;
       const {
         seq,
-        inOut,
+        inOutType,
         bookDate,
         bookTitle,
         amount,
@@ -175,7 +175,7 @@ export default {
       } = await this.$store.dispatch('getAccountBook', { seq: paramSeq });
       if (seq) {
         this.amount = amount;
-        this.inOut = inOut;
+        this.inOutType = inOutType;
         this.bookDate = format('yyyy.MM.dd', new Date(bookDate));
         this.bookTitle = bookTitle;
         this.inPurpose = inPurpose;

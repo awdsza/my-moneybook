@@ -28,8 +28,8 @@ API:
 - TypeORM
 
 ``` Why NestJS❔```
-- 현재 현업에서 사용하고있는 SpringMVC와 비슷한 유형(Annotation(Provider),AOP 등)의 웹 프레임워크
-- express는 자유도가 높지만, 그에 맞게 프레임워크를 설정해야하는 시간적인 단점이 있어서, **Express 기반으로 만든 NestJS는 제공하는 보일러 플레이트 코드만으로 기본적인 백엔드 API서버 개발이 가능하기 때문에 도입 결정.**
+- Spring에서 지원하는 Annotation(Provider)과,AOP(관점지향프로그래밍)을 사용할수있는 Express기반의 프레임워크
+- express는 자유도가 높지만, 개발자의 입맛에 맞는 환경 설정을 시간적인 단점이 있어(깃헙 레포지토리에 Express 보일러 플레이트 코드가 많이있음.) **Express 기반으로 만든 NestJS는 제공하는 보일러 플레이트 코드만으로 기본적인 백엔드 API서버 개발이 가능하기 때문에 도입 결정.**
 - TypeScript를 기본적으로 지원하고 있어 개인공부겸 사용.
 
 ``` CI/CD```
