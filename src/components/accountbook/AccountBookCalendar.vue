@@ -10,7 +10,10 @@
       @update:from-page="fnOnClickMonth"
     >
       <template v-slot:day-content="{ day, attributes }">
-        <div class="flex flex-col h-full z-10 overflow-hidden">
+        <div
+          class="flex flex-col h-full z-10 overflow-hidden w-full"
+          @click="fnOnClickDay(day)"
+        >
           <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
           <div class="flex-grow overflow-y-auto overflow-x-auto">
             <AccountBookCalendarAttribute
@@ -23,6 +26,11 @@
         </div>
       </template>
     </vc-calendar>
+    <AccountBookCalendarDetailPopup
+      :open="isOpenModal"
+      @close="isOpenModal = false"
+      :paramDate="selectDate"
+    />
     <router-link to="/main/write" class="write__button">
       <Icon :icon="'fa-solid fa-plus'" />
     </router-link>
@@ -31,6 +39,7 @@
 
 <script>
 import AccountBookCalendarAttribute from '@/components/accountbook/AccountBookCalendarAttribute.vue';
+import AccountBookCalendarDetailPopup from '@/components/accountbook/AccountBookCalendarDetailPopup.vue';
 import Icon from '@/components/common/Icon.vue';
 import {
   parseFormatDateString,
@@ -42,8 +51,13 @@ export default {
   components: {
     AccountBookCalendarAttribute,
     Icon,
+    AccountBookCalendarDetailPopup,
   },
   methods: {
+    fnOnClickDay({ date }) {
+      this.selectDate = date;
+      this.isOpenModal = true;
+    },
     fnOnClickMonth({ year, month }) {
       this.searchMonth = new Date(year, month - 1, 1);
       this.searchAccountBookList();
@@ -66,18 +80,23 @@ export default {
       });
 
       if (result) {
-        this.attributes = result.map(({ bookDate, inOut, amount }, key) => ({
-          key,
-          customData: {
-            amount: `${inOut === 'inCome' ? `+${amount}` : `-${amount}`}`,
-            class: `${
-              inOut === 'inCome'
-                ? 'calendar__title__income'
-                : 'calendar__title__outgoing'
-            }`,
-          },
-          dates: new Date(bookDate),
-        }));
+        this.attributes = result.map(
+          ({ bookDate, inOutType, amount }, key) => ({
+            key,
+            customData: {
+              amount: `${inOutType === 'inCome' ? `+${amount}` : `-${amount}`}`,
+              bookDate,
+              inOutType,
+              class: `${
+                inOutType === 'inCome'
+                  ? 'calendar__title__income'
+                  : 'calendar__title__outgoing'
+              }`,
+            },
+            popover: true,
+            dates: new Date(bookDate),
+          }),
+        );
       }
     },
   },
@@ -88,12 +107,20 @@ export default {
         weekdays: 'WWW',
       },
       attributes: [],
+      isOpenModal: false,
+      selectDate: new Date(),
     };
   },
 };
 </script>
 
 <style>
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
 .scrollbar {
   width: 0px;
 }
