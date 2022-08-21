@@ -9,7 +9,9 @@ function saveUserToCookie(value) {
 function saveUserSeqToCookie(value) {
   document.cookie = `userSeq=${value}`;
 }
-
+function saveSyncDateTimeToCookie(value) {
+  document.cookie = `syncDateTime=${value}`;
+}
 function getAuthFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
@@ -29,6 +31,12 @@ function getUserFromCookie() {
     '$1',
   );
 }
+function getSyncDateTimeFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)syncDateTime\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+}
 
 function deleteCookie(value) {
   document.cookie = `${value}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
@@ -37,9 +45,11 @@ function deleteCookie(value) {
 export {
   saveAuthToCookie,
   saveUserToCookie,
+  saveUserSeqToCookie,
+  saveSyncDateTimeToCookie,
   getAuthFromCookie,
   getUserFromCookie,
   deleteCookie,
-  saveUserSeqToCookie,
   getUserSeqFromCookie,
+  getSyncDateTimeFromCookie,
 };

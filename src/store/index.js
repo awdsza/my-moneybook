@@ -6,9 +6,10 @@ import { POST, GET, PUT } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
+  saveUserSeqToCookie,
+  saveSyncDateTimeToCookie,
   getAuthFromCookie,
   getUserFromCookie,
-  saveUserSeqToCookie,
   getUserSeqFromCookie,
 } from '@/utils/cookies';
 import { getOutGoingPurpose } from '@/storage';
@@ -40,14 +41,13 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq } = await POST(
-          'users/login',
-          payload,
-        );
+        const { isSuccess, token, userName, userSeq, syncDateTime } =
+          await POST('users/login', payload);
         if (token) {
           saveAuthToCookie(token);
           saveUserToCookie(userName);
           saveUserSeqToCookie(userSeq);
+          saveSyncDateTimeToCookie(syncDateTime);
           commit('setToken', token);
           commit('setUserName', userName);
           return isSuccess;
@@ -83,6 +83,19 @@ export default new Vuex.Store({
       try {
         const result = await GET(
           `/accountbook/calendar?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async getAccountBookWeekList(
+      { commit },
+      { searchStartDate, searchEndDate },
+    ) {
+      try {
+        const result = await GET(
+          `/accountbook/week?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
         );
         return result;
       } catch (e) {

@@ -15,6 +15,13 @@
       >
         <router-link to="/main/calendar">달력</router-link>
       </div>
+      <div
+        class="account__type"
+        :ref="'week'"
+        @click="fnOnClickAccountNavi('week')"
+      >
+        <router-link to="/main/week">주간</router-link>
+      </div>
     </section>
   </section>
 </template>
@@ -48,7 +55,7 @@ export default {
 }
 .account__type {
   float: left;
-  width: 50%;
+  width: 33%;
   text-align: center;
   background-color: #8d39a3;
 }
