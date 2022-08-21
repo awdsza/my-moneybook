@@ -24,6 +24,10 @@ const router = new VueRouter({
         import('@/views/accountbook/AccountBookCalendarView.vue'),
     },
     {
+      path: '/main/week',
+      component: () => import('@/views/accountbook/AccountBookWeekView.vue'),
+    },
+    {
       path: '/main/write',
       component: () => import('@/views/accountbook/AccountBookWriteView.vue'),
     },
