@@ -44,6 +44,8 @@ export default {
   vertical-align: middle;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .account__type__navigation__container {
   background-color: #f7f6f9;
@@ -55,7 +57,7 @@ export default {
 }
 .account__type {
   float: left;
-  width: 33%;
+  width: 100%;
   text-align: center;
   background-color: #8d39a3;
 }
