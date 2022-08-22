@@ -6,8 +6,8 @@
       /></router-link>
     </div>
     <div class="nav__item">
-      <router-link to="/main/info"
-        ><Icon :icon="'fa-solid fa-circle-info'"
+      <router-link to="/setting"
+        ><Icon :icon="'fa-solid fa-ellipsis'"
       /></router-link>
     </div>
   </nav>
