@@ -36,8 +36,16 @@ const router = new VueRouter({
       component: () => import('@/views/accountbook/AccountBookWriteView.vue'),
     },
     {
-      path: '/main/info',
-      component: () => import('@/views/myinfo/MyInfoView.vue'),
+      path: '/setting',
+      component: () => import('@/views/settings/SettingView.vue'),
+    },
+    {
+      path: '/setting/income',
+      component: () => import('@/views/settings/InComeSettingView.vue'),
+    },
+    {
+      path: '/setting/outgoing',
+      component: () => import('@/views/settings/OutGoingSettingView.vue'),
     },
     {
       path: '*',
