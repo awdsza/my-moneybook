@@ -154,6 +154,9 @@ export default {
 .content__section {
   flex-shrink: 2;
 }
+.moneybook__list__section {
+  padding-bottom: 3rem;
+}
 .moneybook__list__section > ul {
   display: flex;
   flex-direction: column;
