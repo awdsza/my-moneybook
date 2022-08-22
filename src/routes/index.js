@@ -40,12 +40,12 @@ const router = new VueRouter({
       component: () => import('@/views/settings/SettingView.vue'),
     },
     {
-      path: '/setting/income',
-      component: () => import('@/views/settings/InComeSettingView.vue'),
+      path: '/setting/:inouttype',
+      component: () => import('@/views/settings/inOutCategorySettingView.vue'),
     },
     {
-      path: '/setting/outgoing',
-      component: () => import('@/views/settings/OutGoingSettingView.vue'),
+      path: '/setting/:inouttype/:code',
+      component: () => import('@/views/settings/InComeSettingView.vue'),
     },
     {
       path: '*',
