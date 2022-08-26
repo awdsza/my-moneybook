@@ -9,7 +9,8 @@
       <a @click="closeModal">닫기</a>
     </template>
     <template #body>
-      <CategoryWriteForm :paramInOutType="paramInOutType"> </CategoryWriteForm>
+      <CategoryWriteForm :paramInOutType="paramInOutType" @close="closeModal">
+      </CategoryWriteForm>
     </template>
   </CommonModal>
 </template>

@@ -5,6 +5,7 @@
         <input
           type="text"
           ref="categoryName"
+          v-model="categoryName"
           placeholder="카테고리 명을 입력하세요"
         />
       </section>
@@ -23,10 +24,25 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      categoryName: '',
+    };
   },
   methods: {
-    async submitForm() {},
+    async submitForm() {
+      if (!this.categoryName.trim()) {
+        alert('카테고리를 입력하세요');
+        return;
+      }
+      const result = await this.$store.dispatch('saveCategory', {
+        inOutType: this.paramInOutType,
+        categoryName: this.categoryName,
+      });
+      if (result.seq) {
+        alert('성공적으로 완료되었습니다');
+        this.$emit('close');
+      }
+    },
   },
 };
 </script>

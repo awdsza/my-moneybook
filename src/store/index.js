@@ -130,9 +130,20 @@ export default new Vuex.Store({
     async getCategory({ commit }, { inOutType }) {
       try {
         const result = await GET(
-          `/settings/category/${inOutType}?userSeq=${getUserFromCookie()}`,
+          `/category/${inOutType}?userSeq=${getUserSeqFromCookie()}`,
         );
         return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async saveCategory({ commit }, { inOutType, categoryName }) {
+      try {
+        return await POST(`/category`, {
+          inOutType,
+          categoryName,
+          userSeq: getUserSeqFromCookie(),
+        });
       } catch (e) {
         return e;
       }
