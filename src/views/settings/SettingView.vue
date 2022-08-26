@@ -1,12 +1,12 @@
 <template>
-  <MyInfo></MyInfo>
+  <SettingList />
 </template>
 
 <script>
-import MyInfo from '@/components/myinfo/MyInfo.vue';
+import SettingList from '@/components/settings/SettingList.vue';
 export default {
   components: {
-    MyInfo,
+    SettingList,
   },
 };
 </script>
