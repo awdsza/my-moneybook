@@ -127,5 +127,15 @@ export default new Vuex.Store({
         return JSON.parse(e);
       }
     },
+    async getCategory({ commit }, { inOutType }) {
+      try {
+        const result = await GET(
+          `/settings/category/${inOutType}?userSeq=${getUserFromCookie()}`,
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
   },
 });
