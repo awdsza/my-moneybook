@@ -10,7 +10,9 @@
         />
       </section>
       <section class="button__section">
-        <button type="submit" class="btn">등록</button>
+        <button type="submit" class="btn">
+          {{ paramCategorySeq ? '등록' : '수정' }}
+        </button>
       </section>
     </form>
   </section>
@@ -22,11 +24,27 @@ export default {
     paramInOutType: {
       type: String,
     },
+    paramCategorySeq: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       categoryName: '',
     };
+  },
+  watch: {
+    async paramCategorySeq(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        const result = await this.$store.dispatch('getCategory', {
+          paramCategorySeq: this.paramCategorySeq,
+        });
+        if (result.categoryName) {
+          this.categoryName = result.categoryName;
+        }
+      }
+    },
   },
   methods: {
     async submitForm() {

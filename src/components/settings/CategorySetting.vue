@@ -11,13 +11,17 @@
         </div>
       </section>
       <ul class="category__setting">
-        <li v-for="{ code, text } in categories" :key="code">
-          <router-link to="/setting">{{ text }}</router-link>
+        <li
+          v-for="{ seq, categoryName, category, inOutType } in categories"
+          :key="seq"
+        >
+          <a @click="fnOnClickMoveCategoryPage(seq)">{{ categoryName }}</a>
         </li>
       </ul>
     </section>
     <CategoryWritePopupView
       :paramInOutType="inOutType"
+      :paramCategorySeq="selectSeq"
       :open="isPopupOpen"
       @close="closeModal"
     />
@@ -35,11 +39,12 @@ export default {
   methods: {
     async getCategory() {
       //TODO
-      // this.categories = await this.$store.dispatch('getCategory', {
-      //   inOutType: this.inOutType,
-      // });
+      this.categories = await this.$store.dispatch('getCategories', {
+        inOutType: this.inOutType,
+      });
     },
-    fnOnClickMoveCategoryPage() {
+    fnOnClickMoveCategoryPage(seq) {
+      this.selectSeq = seq;
       this.isPopupOpen = true;
     },
     closeModal() {
@@ -54,6 +59,7 @@ export default {
   data() {
     return {
       inOutType: '',
+      selectSeq: 0,
       categories: [],
       isPopupOpen: false,
     };
