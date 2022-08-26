@@ -127,10 +127,10 @@ export default new Vuex.Store({
         return JSON.parse(e);
       }
     },
-    async getCategory({ commit }, { inOutType }) {
+    async getCategories({ commit }, { inOutType }) {
       try {
         const result = await GET(
-          `/category/${inOutType}?userSeq=${getUserSeqFromCookie()}`,
+          `/category/${getUserSeqFromCookie()}/${inOutType}`,
         );
         return result;
       } catch (e) {
@@ -144,6 +144,14 @@ export default new Vuex.Store({
           categoryName,
           userSeq: getUserSeqFromCookie(),
         });
+      } catch (e) {
+        return e;
+      }
+    },
+    async getCategory({ commit }, { paramCategorySeq }) {
+      try {
+        const result = await GET(`/category/${paramCategorySeq}`);
+        return result;
       } catch (e) {
         return e;
       }
