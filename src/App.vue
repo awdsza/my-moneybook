@@ -2,7 +2,7 @@
   <div class="app">
     <AppHeader v-if="isUserLogin" />
     <div class="app-contents">
-      <AccountTypeNavigation v-if="isUserLogin" />
+      <AccountTypeNavigation v-if="isUserLogin && isMainMenu" />
       <Navigation v-if="isUserLogin" />
       <router-view></router-view>
     </div>
@@ -21,6 +21,19 @@ export default {
   computed: {
     isUserLogin() {
       return this.$store.getters.isLogin;
+    },
+    isMainMenu() {
+      return this.currentMenu.indexOf('main') > -1;
+    },
+  },
+  data() {
+    return {
+      currentMenu: '',
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.currentMenu = to.path;
     },
   },
 };

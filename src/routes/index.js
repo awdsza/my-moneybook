@@ -41,11 +41,11 @@ const router = new VueRouter({
     },
     {
       path: '/setting/:inouttype',
-      component: () => import('@/views/settings/inOutCategorySettingView.vue'),
+      component: () => import('@/views/settings/CategorySettingView.vue'),
     },
     {
       path: '/setting/:inouttype/:code',
-      component: () => import('@/views/settings/InComeSettingView.vue'),
+      component: () => import('@/views/settings/SettingView.vue'),
     },
     {
       path: '*',
