@@ -9,19 +9,23 @@
       <a @click="closeModal">닫기</a>
     </template>
     <template #body>
-      <CategoryWriteForm :paramInOutType="paramInOutType" @close="closeModal">
-      </CategoryWriteForm>
+      <CategoryForm
+        :paramInOutType="paramInOutType"
+        :paramCategorySeq="paramCategorySeq"
+        @close="closeModal"
+      >
+      </CategoryForm>
     </template>
   </CommonModal>
 </template>
 
 <script>
 import CommonModal from '@/components/common/CommonModal.vue';
-import CategoryWriteForm from '@/components/settings/CategoryWriteForm.vue';
+import CategoryForm from '@/components/settings/CategoryForm.vue';
 export default {
   components: {
     CommonModal,
-    CategoryWriteForm,
+    CategoryForm,
   },
   props: {
     open: {
@@ -30,6 +34,9 @@ export default {
     },
     paramInOutType: {
       type: String,
+    },
+    paramCategorySeq: {
+      type: Number,
     },
   },
   methods: {
