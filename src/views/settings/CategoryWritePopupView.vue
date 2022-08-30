@@ -5,7 +5,7 @@
     :containerHeight="`200px`"
   >
     <template #header>
-      <h3>등록</h3>
+      <h3>{{ paramCategorySeq ? '카테고리 수정' : '카테고리 등록' }}</h3>
       <a @click="closeModal">닫기</a>
     </template>
     <template #body>
@@ -40,8 +40,8 @@ export default {
     },
   },
   methods: {
-    closeModal() {
-      this.$emit('close');
+    closeModal(payload) {
+      this.$emit('close', payload);
     },
   },
 };

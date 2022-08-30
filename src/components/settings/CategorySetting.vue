@@ -5,7 +5,7 @@
         <div></div>
         <h3 class="category__title">{{ getTitle }}</h3>
         <div>
-          <a @click="fnOnClickMoveCategoryPage">
+          <a @click="fnOnClickCeateCategoryPage">
             <Icon :icon="'fa-solid fa-plus'" />
           </a>
         </div>
@@ -45,11 +45,18 @@ export default {
         inOutType: this.inOutType,
       });
     },
+    fnOnClickCeateCategoryPage() {
+      this.selectSeq = 0;
+      this.isPopupOpen = true;
+    },
     fnOnClickMoveCategoryPage(seq) {
       this.selectSeq = seq;
       this.isPopupOpen = true;
     },
-    closeModal() {
+    closeModal(payload) {
+      if (payload && payload.reload) {
+        this.getCategory();
+      }
       this.isPopupOpen = false;
     },
   },

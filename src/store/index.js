@@ -156,5 +156,15 @@ export default new Vuex.Store({
         return e;
       }
     },
+    async updateCategory({ commit }, { seq, categoryName }) {
+      try {
+        const result = await PUT(`/category/${seq}`, {
+          categoryName,
+        });
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
   },
 });
