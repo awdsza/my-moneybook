@@ -1,17 +1,39 @@
 <template>
-  <li class="category__item" @click="fnOnClickCategory">
-    {{ category.categoryName }}
+  <li class="category__item">
+    <a @click="fnOnClickDeleteCategory">
+      <Icon :icon="'fa-solid fa-circle-minus'" />
+    </a>
+    <a @click="fnOnClickCategory">
+      {{ category.categoryName }}
+    </a>
   </li>
 </template>
 
 <script>
+import Icon from '@/components/common/Icon.vue';
 export default {
+  components: {
+    Icon,
+  },
   props: {
     category: {
       type: Object,
     },
   },
   methods: {
+    async fnOnClickDeleteCategory() {
+      if (confirm('삭제하시겠습니까?')) {
+        const result = await this.$store.dispatch('deleteCategory', {
+          seq: this.category.seq,
+        });
+        if (!result.isSuccess) {
+          alert('삭제에 실패하였습니다.');
+          return;
+        }
+        alert('삭제가 완료되었습니다.');
+        this.$emit('reload');
+      }
+    },
     fnOnClickCategory() {
       this.$emit('itemClick', this.category.seq);
     },

@@ -16,6 +16,7 @@
           :key="paramCategory.seq"
           :category="paramCategory"
           @itemClick="fnOnClickMoveCategoryPage"
+          @reload="getCategory"
         />
       </ul>
     </section>

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { POST, GET, PUT } from '@/api/index';
+import { POST, GET, PUT, DELETE } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -161,6 +161,14 @@ export default new Vuex.Store({
         const result = await PUT(`/category/${seq}`, {
           categoryName,
         });
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async deleteCategory({ commit }, { seq }) {
+      try {
+        const result = await DELETE(`/category/${seq}`);
         return result;
       } catch (e) {
         return e;
