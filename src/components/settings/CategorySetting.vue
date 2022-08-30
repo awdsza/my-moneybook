@@ -11,12 +11,12 @@
         </div>
       </section>
       <ul class="category__setting">
-        <li
-          v-for="{ seq, categoryName, category, inOutType } in categories"
-          :key="seq"
-        >
-          <a @click="fnOnClickMoveCategoryPage(seq)">{{ categoryName }}</a>
-        </li>
+        <CategoryItem
+          v-for="paramCategory in categories"
+          :key="paramCategory.seq"
+          :category="paramCategory"
+          @itemClick="fnOnClickMoveCategoryPage"
+        />
       </ul>
     </section>
     <CategoryWritePopupView
@@ -31,10 +31,12 @@
 <script>
 import Icon from '@/components/common/Icon.vue';
 import CategoryWritePopupView from '@/views/settings/CategoryWritePopupView.vue';
+import CategoryItem from '@/components/settings/CategoryItem.vue';
 export default {
   components: {
     Icon,
     CategoryWritePopupView,
+    CategoryItem,
   },
   methods: {
     async getCategory() {
