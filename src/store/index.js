@@ -174,5 +174,16 @@ export default new Vuex.Store({
         return e;
       }
     },
+    async changeCategorySort({ commit }, { categories, inOutType }) {
+      try {
+        const result = await PUT(
+          `/category/sort/${getUserSeqFromCookie()}/${inOutType}`,
+          categories,
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
   },
 });

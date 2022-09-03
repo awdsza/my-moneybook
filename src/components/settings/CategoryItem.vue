@@ -1,10 +1,13 @@
 <template>
-  <li class="category__item">
-    <a @click="fnOnClickDeleteCategory">
-      <Icon :icon="'fa-solid fa-circle-minus'" />
+  <li class="category__item" :ref="'category__item' + category.seq">
+    <a v-bind:class="`${handle}`">
+      <Icon :icon="'fa-solid fa-sort'" />
     </a>
     <a @click="fnOnClickCategory">
       {{ category.categoryName }}
+    </a>
+    <a @click="fnOnClickDeleteCategory">
+      <Icon :icon="'fa-solid fa-circle-minus'" />
     </a>
   </li>
 </template>
@@ -18,6 +21,9 @@ export default {
   props: {
     category: {
       type: Object,
+    },
+    handle: {
+      type: String,
     },
   },
   methods: {
