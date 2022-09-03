@@ -10,15 +10,21 @@
           </a>
         </div>
       </section>
-      <ul class="category__setting">
+      <draggable
+        tag="ul"
+        :list="categories"
+        class="category__setting"
+        handle=".handle"
+        @change="fnOnDragEnd"
+      >
         <CategoryItem
           v-for="paramCategory in categories"
           :key="paramCategory.seq"
           :category="paramCategory"
+          :handle="'handle'"
           @itemClick="fnOnClickMoveCategoryPage"
-          @reload="getCategory"
         />
-      </ul>
+      </draggable>
     </section>
     <CategoryWritePopupView
       :paramInOutType="inOutType"
@@ -30,6 +36,7 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable';
 import Icon from '@/components/common/Icon.vue';
 import CategoryWritePopupView from '@/views/settings/CategoryWritePopupView.vue';
 import CategoryItem from '@/components/settings/CategoryItem.vue';
@@ -38,6 +45,7 @@ export default {
     Icon,
     CategoryWritePopupView,
     CategoryItem,
+    draggable,
   },
   methods: {
     async getCategory() {
@@ -59,6 +67,16 @@ export default {
         this.getCategory();
       }
       this.isPopupOpen = false;
+    },
+    async fnOnDragEnd() {
+      const result = await this.$store.dispatch('changeCategorySort', {
+        categories: this.categories,
+        inOutType: this.inOutType,
+      });
+      if (!result.isSuccess) {
+        alert('실패');
+        console.error(result);
+      }
     },
   },
   computed: {

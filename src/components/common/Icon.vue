@@ -16,9 +16,10 @@ import {
   faCircleInfo,
   faEllipsis,
   faCircleMinus,
+  faSort,
 } from '@fortawesome/free-solid-svg-icons';
 /* add icons to the library */
-library.add(faPlus, faList, faCircleInfo, faEllipsis, faCircleMinus);
+library.add(faPlus, faList, faCircleInfo, faEllipsis, faCircleMinus, faSort);
 
 export default {
   components: {
