@@ -10,7 +10,7 @@ function saveUserSeqToCookie(value) {
   document.cookie = `userSeq=${value}`;
 }
 function saveSyncDateTimeToCookie(value) {
-  document.cookie = `syncDateTime=${value}`;
+  document.cookie = `syncDateTime=${String(value)}`;
 }
 function getAuthFromCookie() {
   return document.cookie.replace(
