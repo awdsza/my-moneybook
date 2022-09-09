@@ -41,16 +41,16 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq, syncDateTime } =
+        const { isSuccess, access_token, userName, syncDateTime, userSeq } =
           await POST('users/login', payload);
-        if (token) {
-          saveAuthToCookie(token);
+        if (access_token) {
+          saveAuthToCookie(access_token);
           saveUserToCookie(userName);
           saveUserSeqToCookie(userSeq);
           saveSyncDateTimeToCookie(syncDateTime);
-          commit('setToken', token);
+          commit('setToken', access_token);
           commit('setUserName', userName);
-          return isSuccess;
+          return { isSuccess };
         }
       } catch (e) {
         return JSON.parse(e.message);

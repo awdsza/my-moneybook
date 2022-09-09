@@ -75,7 +75,6 @@ export default {
         return;
       }
       //로그인처리
-      this.$store.state.isLogin = true;
       this.$router.push('/main/list');
     },
   },
