@@ -6,21 +6,12 @@ function saveUserToCookie(value) {
   document.cookie = `userName=${value}`;
 }
 
-function saveUserSeqToCookie(value) {
-  document.cookie = `userSeq=${value}`;
-}
 function saveSyncDateTimeToCookie(value) {
-  document.cookie = `syncDateTime=${String(value)}`;
+  document.cookie = `syncDateTime=${value}`;
 }
 function getAuthFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-    '$1',
-  );
-}
-function getUserSeqFromCookie() {
-  return document.cookie.replace(
-    /(?:(?:^|.*;\s*)userSeq\s*=\s*([^;]*).*$)|^.*$/,
     '$1',
   );
 }
@@ -45,11 +36,9 @@ function deleteCookie(value) {
 export {
   saveAuthToCookie,
   saveUserToCookie,
-  saveUserSeqToCookie,
   saveSyncDateTimeToCookie,
   getAuthFromCookie,
   getUserFromCookie,
   deleteCookie,
-  getUserSeqFromCookie,
   getSyncDateTimeFromCookie,
 };
