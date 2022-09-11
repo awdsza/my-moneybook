@@ -57,7 +57,9 @@ export default new Vuex.Store({
     },
     async createAccountBook({ commit }, payload) {
       try {
-        return await POST('/accountbook', payload);
+        return await POST('/accountbook', payload, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
       } catch (e) {
         return JSON.parse(e);
       }
@@ -117,7 +119,9 @@ export default new Vuex.Store({
     },
     async getAccountBook({ commit }, { seq }) {
       try {
-        const result = await GET(`/accountbook/${seq}`);
+        const result = await GET(`/accountbook/${seq}`, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
         return result;
       } catch (e) {
         return e;
@@ -125,7 +129,9 @@ export default new Vuex.Store({
     },
     async updateAccountBook({ commit }, payload) {
       try {
-        return await PUT(`/accountbook/${payload.seq}`, payload);
+        return await PUT(`/accountbook/${payload.seq}`, payload, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
       } catch (e) {
         return JSON.parse(e);
       }
