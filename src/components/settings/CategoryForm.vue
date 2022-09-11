@@ -40,6 +40,7 @@ export default {
       if (newValue !== oldValue) {
         const result = await this.$store.dispatch('getCategory', {
           paramCategorySeq: this.paramCategorySeq,
+          paramInOutType: this.paramInOutType,
         });
         if (result.categoryName) {
           this.categoryName = result.categoryName;
