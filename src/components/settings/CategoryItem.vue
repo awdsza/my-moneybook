@@ -41,7 +41,10 @@ export default {
       }
     },
     fnOnClickCategory() {
-      this.$emit('itemClick', this.category.seq);
+      this.$emit('itemClick', {
+        seq: this.category.seq,
+        inOutType: this.category.inOutType,
+      });
     },
   },
 };

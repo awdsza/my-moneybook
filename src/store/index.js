@@ -149,5 +149,83 @@ export default new Vuex.Store({
         return JSON.parse(e);
       }
     },
+    async getCategories({ commit }, { inOutType }) {
+      try {
+        const result = await GET(`/category/${inOutType}`, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
+        return result;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async saveCategory({ commit }, { inOutType, categoryName }) {
+      try {
+        return await POST(
+          `/category`,
+          {
+            inOutType,
+            categoryName,
+          },
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
+        );
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async getCategory({ commit }, { paramCategorySeq, paramInOutType }) {
+      try {
+        const result = await GET(
+          `/category/${paramInOutType}/${paramCategorySeq}`,
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
+        return result;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async updateCategory({ commit }, { seq, categoryName }) {
+      try {
+        const result = await PUT(
+          `/category/${seq}`,
+          {
+            categoryName,
+          },
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async deleteCategory({ commit }, { seq }) {
+      try {
+        const result = await DELETE(
+          `/category/${seq}`,
+          {},
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async changeCategorySort({ commit }, { categories, inOutType }) {
+      try {
+        const result = await PUT(`/category/sort/${inOutType}`, categories, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
   },
 });
