@@ -88,7 +88,7 @@
 <script>
 import { outGoingPurposeCodeList } from '@/storage/index';
 import * as format from 'date-format';
-import { DELETE } from '@/api';
+
 export default {
   components: {},
   data() {
@@ -151,7 +151,9 @@ export default {
     },
     async fnOnClickDelete() {
       if (confirm('삭제하시겠습니까?')) {
-        const { isSuccess } = await DELETE(`/accountbook/${this.paramSeq}`);
+        const { isSuccess } = await this.$store.dispatch('deleteAccountBook', {
+          seq: this.paramSeq,
+        });
         if (isSuccess) {
           alert('삭제 되었습니다');
           this.$router.push('/main/list');

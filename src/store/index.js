@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { POST, GET, PUT } from '@/api/index';
+import { POST, GET, PUT, DELETE } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -132,6 +132,19 @@ export default new Vuex.Store({
         return await PUT(`/accountbook/${payload.seq}`, payload, {
           Authorization: `Bearer ${getAuthFromCookie()}`,
         });
+      } catch (e) {
+        return JSON.parse(e);
+      }
+    },
+    async deleteAccountBook({ commit }, { seq }) {
+      try {
+        return await DELETE(
+          `/accountbook/${seq}`,
+          {},
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
       } catch (e) {
         return JSON.parse(e);
       }
