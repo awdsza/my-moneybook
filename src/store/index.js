@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { POST, GET, PUT, DELETE } from '@/api/index';
+import { POST, GET, PUT } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -41,16 +41,16 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, access_token, userName, syncDateTime, userSeq } =
+        const { isSuccess, token, userName, userSeq, syncDateTime } =
           await POST('users/login', payload);
-        if (access_token) {
-          saveAuthToCookie(access_token);
+        if (token) {
+          saveAuthToCookie(token);
           saveUserToCookie(userName);
           saveUserSeqToCookie(userSeq);
           saveSyncDateTimeToCookie(syncDateTime);
-          commit('setToken', access_token);
+          commit('setToken', token);
           commit('setUserName', userName);
-          return { isSuccess };
+          return isSuccess;
         }
       } catch (e) {
         return JSON.parse(e.message);
@@ -66,7 +66,8 @@ export default new Vuex.Store({
     async getAccountBookList({ commit }, { searchStartDate, searchEndDate }) {
       try {
         const result = await GET(
-          `/accountbook?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          `/accountbook?searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result.map(accountbook => ({
           ...accountbook,
@@ -125,64 +126,6 @@ export default new Vuex.Store({
         return await PUT(`/accountbook/${payload.seq}`, payload);
       } catch (e) {
         return JSON.parse(e);
-      }
-    },
-    async getCategories({ commit }, { inOutType }) {
-      try {
-        const result = await GET(
-          `/category/${getUserSeqFromCookie()}/${inOutType}`,
-        );
-        return result;
-      } catch (e) {
-        return e;
-      }
-    },
-    async saveCategory({ commit }, { inOutType, categoryName }) {
-      try {
-        return await POST(`/category`, {
-          inOutType,
-          categoryName,
-          userSeq: getUserSeqFromCookie(),
-        });
-      } catch (e) {
-        return e;
-      }
-    },
-    async getCategory({ commit }, { paramCategorySeq }) {
-      try {
-        const result = await GET(`/category/${paramCategorySeq}`);
-        return result;
-      } catch (e) {
-        return e;
-      }
-    },
-    async updateCategory({ commit }, { seq, categoryName }) {
-      try {
-        const result = await PUT(`/category/${seq}`, {
-          categoryName,
-        });
-        return result;
-      } catch (e) {
-        return e;
-      }
-    },
-    async deleteCategory({ commit }, { seq }) {
-      try {
-        const result = await DELETE(`/category/${seq}`);
-        return result;
-      } catch (e) {
-        return e;
-      }
-    },
-    async changeCategorySort({ commit }, { categories, inOutType }) {
-      try {
-        const result = await PUT(
-          `/category/sort/${getUserSeqFromCookie()}/${inOutType}`,
-          categories,
-        );
-        return result;
-      } catch (e) {
-        return e;
       }
     },
   },
