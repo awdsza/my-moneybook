@@ -5,19 +5,26 @@
         <div></div>
         <h3 class="category__title">{{ getTitle }}</h3>
         <div>
-          <a @click="fnOnClickMoveCategoryPage">
+          <a @click="fnOnClickCeateCategoryPage">
             <Icon :icon="'fa-solid fa-plus'" />
           </a>
         </div>
       </section>
-      <ul class="category__setting">
-        <li
-          v-for="{ seq, categoryName, category, inOutType } in categories"
-          :key="seq"
-        >
-          <a @click="fnOnClickMoveCategoryPage(seq)">{{ categoryName }}</a>
-        </li>
-      </ul>
+      <draggable
+        tag="ul"
+        :list="categories"
+        class="category__setting"
+        handle=".handle"
+        @change="fnOnDragEnd"
+      >
+        <CategoryItem
+          v-for="paramCategory in categories"
+          :key="paramCategory.seq"
+          :category="paramCategory"
+          :handle="'handle'"
+          @itemClick="fnOnClickMoveCategoryPage"
+        />
+      </draggable>
     </section>
     <CategoryWritePopupView
       :paramInOutType="inOutType"
@@ -29,12 +36,16 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable';
 import Icon from '@/components/common/Icon.vue';
 import CategoryWritePopupView from '@/views/settings/CategoryWritePopupView.vue';
+import CategoryItem from '@/components/settings/CategoryItem.vue';
 export default {
   components: {
     Icon,
     CategoryWritePopupView,
+    CategoryItem,
+    draggable,
   },
   methods: {
     async getCategory() {
@@ -43,12 +54,29 @@ export default {
         inOutType: this.inOutType,
       });
     },
+    fnOnClickCeateCategoryPage() {
+      this.selectSeq = 0;
+      this.isPopupOpen = true;
+    },
     fnOnClickMoveCategoryPage(seq) {
       this.selectSeq = seq;
       this.isPopupOpen = true;
     },
-    closeModal() {
+    closeModal(payload) {
+      if (payload && payload.reload) {
+        this.getCategory();
+      }
       this.isPopupOpen = false;
+    },
+    async fnOnDragEnd() {
+      const result = await this.$store.dispatch('changeCategorySort', {
+        categories: this.categories,
+        inOutType: this.inOutType,
+      });
+      if (!result.isSuccess) {
+        alert('실패');
+        console.error(result);
+      }
     },
   },
   computed: {

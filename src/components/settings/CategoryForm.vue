@@ -11,7 +11,7 @@
       </section>
       <section class="button__section">
         <button type="submit" class="btn">
-          {{ paramCategorySeq ? '등록' : '수정' }}
+          {{ popupTitle }}
         </button>
       </section>
     </form>
@@ -31,6 +31,7 @@ export default {
   },
   data() {
     return {
+      popupTitle: '등록',
       categoryName: '',
     };
   },
@@ -42,6 +43,7 @@ export default {
         });
         if (result.categoryName) {
           this.categoryName = result.categoryName;
+          this.popupTitle = '수정';
         }
       }
     },
@@ -52,13 +54,19 @@ export default {
         alert('카테고리를 입력하세요');
         return;
       }
-      const result = await this.$store.dispatch('saveCategory', {
+      let payload = {
         inOutType: this.paramInOutType,
         categoryName: this.categoryName,
-      });
-      if (result.seq) {
+      };
+      let actionType = 'saveCategory';
+      if (this.paramCategorySeq) {
+        actionType = 'updateCategory';
+        payload = { ...payload, seq: this.paramCategorySeq };
+      }
+      const result = await this.$store.dispatch(actionType, payload);
+      if (result.isSuccess) {
         alert('성공적으로 완료되었습니다');
-        this.$emit('close');
+        this.$emit('close', { reload: true });
       }
     },
   },

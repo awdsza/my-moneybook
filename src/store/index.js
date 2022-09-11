@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { POST, GET, PUT } from '@/api/index';
+import { POST, GET, PUT, DELETE } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
@@ -41,16 +41,16 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq, syncDateTime } =
+        const { isSuccess, access_token, userName, syncDateTime, userSeq } =
           await POST('users/login', payload);
-        if (token) {
-          saveAuthToCookie(token);
+        if (access_token) {
+          saveAuthToCookie(access_token);
           saveUserToCookie(userName);
           saveUserSeqToCookie(userSeq);
           saveSyncDateTimeToCookie(syncDateTime);
-          commit('setToken', token);
+          commit('setToken', access_token);
           commit('setUserName', userName);
-          return isSuccess;
+          return { isSuccess };
         }
       } catch (e) {
         return JSON.parse(e.message);
@@ -151,6 +151,35 @@ export default new Vuex.Store({
     async getCategory({ commit }, { paramCategorySeq }) {
       try {
         const result = await GET(`/category/${paramCategorySeq}`);
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async updateCategory({ commit }, { seq, categoryName }) {
+      try {
+        const result = await PUT(`/category/${seq}`, {
+          categoryName,
+        });
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async deleteCategory({ commit }, { seq }) {
+      try {
+        const result = await DELETE(`/category/${seq}`);
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async changeCategorySort({ commit }, { categories, inOutType }) {
+      try {
+        const result = await PUT(
+          `/category/sort/${getUserSeqFromCookie()}/${inOutType}`,
+          categories,
+        );
         return result;
       } catch (e) {
         return e;
