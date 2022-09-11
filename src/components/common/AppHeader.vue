@@ -31,6 +31,7 @@ export default {
     logoutUser() {
       deleteCookie('userName');
       deleteCookie('token');
+      deleteCookie('syncDateTime');
       this.$store.commit('setToken', '');
       this.$store.commit('setUserName', '');
       this.$router.push('/login');
