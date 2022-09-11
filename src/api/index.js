@@ -1,4 +1,4 @@
-const GET = async (path, body, headers = {}) => {
+const GET = async (path, headers = {}, body) => {
   const url = `${path}`;
   const options = {
     headers: {
