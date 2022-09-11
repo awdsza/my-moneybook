@@ -6,11 +6,9 @@ import { POST, GET, PUT } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
-  saveUserSeqToCookie,
   saveSyncDateTimeToCookie,
   getAuthFromCookie,
   getUserFromCookie,
-  getUserSeqFromCookie,
 } from '@/utils/cookies';
 import { getOutGoingPurpose } from '@/storage';
 export default new Vuex.Store({
@@ -41,16 +39,17 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq, syncDateTime } =
-          await POST('users/login', payload);
-        if (token) {
-          saveAuthToCookie(token);
+        const { isSuccess, access_token, userName, syncDateTime } = await POST(
+          'users/login',
+          payload,
+        );
+        if (access_token) {
+          saveAuthToCookie(access_token);
           saveUserToCookie(userName);
-          saveUserSeqToCookie(userSeq);
-          saveSyncDateTimeToCookie(syncDateTime);
-          commit('setToken', token);
+          saveSyncDateTimeToCookie(String(syncDateTime));
+          commit('setToken', access_token);
           commit('setUserName', userName);
-          return isSuccess;
+          return { isSuccess };
         }
       } catch (e) {
         return JSON.parse(e.message);
@@ -83,7 +82,8 @@ export default new Vuex.Store({
     ) {
       try {
         const result = await GET(
-          `/accountbook/calendar?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          `/accountbook/calendar?searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
@@ -96,7 +96,8 @@ export default new Vuex.Store({
     ) {
       try {
         const result = await GET(
-          `/accountbook/week?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          `/accountbook/week?&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
@@ -106,7 +107,8 @@ export default new Vuex.Store({
     async getAccountBookCalendarDetail({ commit }, { bookDate }) {
       try {
         const result = await GET(
-          `/accountbook/calendar/detail?userSeq=${getUserSeqFromCookie()}&bookDate=${bookDate}`,
+          `/accountbook/calendar/detail?bookDate=${bookDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
