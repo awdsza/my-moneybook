@@ -2,15 +2,13 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-import { POST, GET, PUT } from '@/api/index';
+import { POST, GET, PUT, DELETE } from '@/api/index';
 import {
   saveAuthToCookie,
   saveUserToCookie,
-  saveUserSeqToCookie,
   saveSyncDateTimeToCookie,
   getAuthFromCookie,
   getUserFromCookie,
-  getUserSeqFromCookie,
 } from '@/utils/cookies';
 import { getOutGoingPurpose } from '@/storage';
 export default new Vuex.Store({
@@ -41,16 +39,17 @@ export default new Vuex.Store({
     },
     async loginUser({ commit }, payload) {
       try {
-        const { isSuccess, token, userName, userSeq, syncDateTime } =
-          await POST('users/login', payload);
-        if (token) {
-          saveAuthToCookie(token);
+        const { isSuccess, access_token, userName, syncDateTime } = await POST(
+          'users/login',
+          payload,
+        );
+        if (access_token) {
+          saveAuthToCookie(access_token);
           saveUserToCookie(userName);
-          saveUserSeqToCookie(userSeq);
-          saveSyncDateTimeToCookie(syncDateTime);
-          commit('setToken', token);
+          saveSyncDateTimeToCookie(String(syncDateTime));
+          commit('setToken', access_token);
           commit('setUserName', userName);
-          return isSuccess;
+          return { isSuccess };
         }
       } catch (e) {
         return JSON.parse(e.message);
@@ -58,7 +57,9 @@ export default new Vuex.Store({
     },
     async createAccountBook({ commit }, payload) {
       try {
-        return await POST('/accountbook', payload);
+        return await POST('/accountbook', payload, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
       } catch (e) {
         return JSON.parse(e);
       }
@@ -83,7 +84,8 @@ export default new Vuex.Store({
     ) {
       try {
         const result = await GET(
-          `/accountbook/calendar?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          `/accountbook/calendar?searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
@@ -96,7 +98,8 @@ export default new Vuex.Store({
     ) {
       try {
         const result = await GET(
-          `/accountbook/week?userSeq=${getUserSeqFromCookie()}&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          `/accountbook/week?&searchStartDate=${searchStartDate}&searchEndDate=${searchEndDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
@@ -106,7 +109,8 @@ export default new Vuex.Store({
     async getAccountBookCalendarDetail({ commit }, { bookDate }) {
       try {
         const result = await GET(
-          `/accountbook/calendar/detail?userSeq=${getUserSeqFromCookie()}&bookDate=${bookDate}`,
+          `/accountbook/calendar/detail?bookDate=${bookDate}`,
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
         );
         return result;
       } catch (e) {
@@ -115,7 +119,9 @@ export default new Vuex.Store({
     },
     async getAccountBook({ commit }, { seq }) {
       try {
-        const result = await GET(`/accountbook/${seq}`);
+        const result = await GET(`/accountbook/${seq}`, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
         return result;
       } catch (e) {
         return e;
@@ -123,9 +129,102 @@ export default new Vuex.Store({
     },
     async updateAccountBook({ commit }, payload) {
       try {
-        return await PUT(`/accountbook/${payload.seq}`, payload);
+        return await PUT(`/accountbook/${payload.seq}`, payload, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
       } catch (e) {
         return JSON.parse(e);
+      }
+    },
+    async deleteAccountBook({ commit }, { seq }) {
+      try {
+        return await DELETE(
+          `/accountbook/${seq}`,
+          {},
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
+      } catch (e) {
+        return JSON.parse(e);
+      }
+    },
+    async getCategories({ commit }, { inOutType }) {
+      try {
+        const result = await GET(`/category/${inOutType}`, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
+        return result;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async saveCategory({ commit }, { inOutType, categoryName }) {
+      try {
+        return await POST(
+          `/category`,
+          {
+            inOutType,
+            categoryName,
+          },
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
+        );
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async getCategory({ commit }, { paramCategorySeq, paramInOutType }) {
+      try {
+        const result = await GET(
+          `/category/${paramInOutType}/${paramCategorySeq}`,
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
+        return result;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    },
+    async updateCategory({ commit }, { seq, categoryName }) {
+      try {
+        const result = await PUT(
+          `/category/${seq}`,
+          {
+            categoryName,
+          },
+          { Authorization: `Bearer ${getAuthFromCookie()}` },
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async deleteCategory({ commit }, { seq }) {
+      try {
+        const result = await DELETE(
+          `/category/${seq}`,
+          {},
+          {
+            Authorization: `Bearer ${getAuthFromCookie()}`,
+          },
+        );
+        return result;
+      } catch (e) {
+        return e;
+      }
+    },
+    async changeCategorySort({ commit }, { categories, inOutType }) {
+      try {
+        const result = await PUT(`/category/sort/${inOutType}`, categories, {
+          Authorization: `Bearer ${getAuthFromCookie()}`,
+        });
+        return result;
+      } catch (e) {
+        return e;
       }
     },
   },

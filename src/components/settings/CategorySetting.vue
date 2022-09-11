@@ -58,7 +58,7 @@ export default {
       this.selectSeq = 0;
       this.isPopupOpen = true;
     },
-    fnOnClickMoveCategoryPage(seq) {
+    fnOnClickMoveCategoryPage({ seq, inOutType }) {
       this.selectSeq = seq;
       this.isPopupOpen = true;
     },
