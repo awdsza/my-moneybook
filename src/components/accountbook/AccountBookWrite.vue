@@ -139,6 +139,7 @@ export default {
           inOutType: this.inOutType,
           inPurpose: this.inPurpose,
           outGoingPurpose: this.outGoingPurpose,
+          inComePurpose: this.inComePurpose,
           bookDate: this.bookDate,
         });
       } else {
@@ -149,6 +150,7 @@ export default {
           inOutType: this.inOutType,
           inPurpose: this.inPurpose,
           outGoingPurpose: this.outGoingPurpose,
+          inComePurpose: this.inComePurpose,
           bookDate: this.bookDate,
         });
       }
