@@ -17,7 +17,7 @@
             수입
           </button>
           <button
-            type="button "
+            type="button"
             class="btn"
             :class="inOutType === 'outGoing' ? 'active' : ''"
             @click="inOutType = 'outGoing'"
@@ -60,14 +60,22 @@
           v-if="inOutType === 'outGoing'"
         >
           <option
-            v-for="{ value, name } in outGoingPurposeCodeList"
-            :value="value"
-            :key="value"
+            v-for="{ seq, category, categoryName } in outGoingPurposeCodeList"
+            :value="category"
+            :key="seq"
           >
-            {{ name }}
+            {{ categoryName }}
           </option>
         </select>
-        <input type="text" v-else v-model="inPurpose" />
+        <select id="purpose" v-model="inPurpose" v-else>
+          <option
+            v-for="{ seq, category, categoryName } in inComePurposeCodeList"
+            :value="category"
+            :key="seq"
+          >
+            {{ categoryName }}
+          </option>
+        </select>
       </section>
       <section class="button__section item__content">
         <button type="submit" class="btn">등록</button>
@@ -86,7 +94,6 @@
 </template>
 
 <script>
-import { outGoingPurposeCodeList } from '@/storage/index';
 import * as format from 'date-format';
 
 export default {
@@ -101,9 +108,11 @@ export default {
       amount: '',
       purpose: '',
       inPurpose: '',
-      outGoingPurpose: outGoingPurposeCodeList[0].value,
+      outGoingPurpose: '',
+      inComePurpose: '',
       timezone: '',
-      outGoingPurposeCodeList,
+      outGoingPurposeCodeList: [],
+      inComePurposeCodeList: [],
     };
   },
   methods: {
@@ -163,6 +172,16 @@ export default {
   },
 
   async created() {
+    //사용자 가게부 카테고리 값 로딩.
+    this.outGoingPurposeCodeList = await this.$store.dispatch('getCategories', {
+      inOutType: this.inOutType,
+    });
+    this.inComePurposeCodeList = await this.$store.dispatch('getCategories', {
+      inOutType: 'inCome',
+    });
+    this.bookDate = format('yyyy.MM.dd', new Date());
+    this.outGoingPurpose = this.outGoingPurposeCodeList[0].category;
+    this.inComePurpose = this.inComePurposeCodeList[0].category;
     const { seq: paramSeq } = this.$route.params;
     if (paramSeq) {
       this.paramSeq = paramSeq;
@@ -183,9 +202,7 @@ export default {
         this.inPurpose = inPurpose;
         this.outGoingPurpose = outGoingPurpose;
       }
-      return;
     }
-    this.bookDate = format('yyyy.MM.dd', new Date());
   },
 };
 </script>
