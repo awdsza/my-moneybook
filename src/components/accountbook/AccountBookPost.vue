@@ -4,11 +4,7 @@
       {{ convertDate }}
     </section>
     <section>
-      {{
-        accountBook.inOutType === 'income'
-          ? accountBook.inPurpose
-          : accountBook.outGoingPurposeText
-      }}
+      {{ accountBook.categoryName }}
     </section>
     <section class="post-title">
       {{ accountBook.bookTitle }}
