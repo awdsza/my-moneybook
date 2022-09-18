@@ -1,16 +1,17 @@
 <template>
   <li class="accountbook__item" @click="fnOnClickDetailPage">
-    <section v-show="accountBook.bookDate">
+    <section v-show="accountBook.bookDate" class="accountbook__item__date">
       {{ convertDate }}
     </section>
-    <section>
-      {{ accountBook.categoryName }}
-    </section>
-    <section class="post-title">
+    <section class="accountbook__item__title">
       {{ accountBook.bookTitle }}
+      <br />
+      <span class="accountbook__item__category">{{
+        accountBook.categoryName
+      }}</span>
     </section>
     <section
-      class=""
+      class="accountbook__item__amount"
       :class="
         accountBook.inOutType.toLowerCase() === 'income'
           ? 'incomeColor'
@@ -62,6 +63,21 @@ export default {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  font-size: 1rem;
+}
+.accountbook__item__date {
+  width: 7rem;
+  margin-right: 0.75rem;
+}
+.accountbook__item__category {
+  font-size: 0.75rem;
+}
+.accountbook__item__title {
+  width: 15rem;
+  margin-right: 0.75rem;
+}
+.accountbook__item__amount {
+  width: 3rem;
 }
 .incomeColor {
   color: #4e32db;
