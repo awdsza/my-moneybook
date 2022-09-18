@@ -2,7 +2,11 @@
   <section class="category__setting__container">
     <section class="category__setting__wrapper">
       <section class="category__header">
-        <div></div>
+        <div>
+          <router-link to="/setting">
+            <Icon :icon="'fa-solid fa-chevron-left'" />
+          </router-link>
+        </div>
         <h3 class="category__title">{{ getTitle }}</h3>
         <div>
           <a @click="fnOnClickCeateCategoryPage">
